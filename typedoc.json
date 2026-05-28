@@ -1,0 +1,14 @@
+{
+  "$schema": "https://typedoc.org/schema.json",
+  "entryPoints": ["src/index.ts"],
+  "tsconfig": "tsconfig.typedoc.json",
+  "out": "docs/api",
+  "plugin": ["typedoc-plugin-markdown", "typedoc-vitepress-theme"],
+  "docsRoot": "docs",
+  "readme": "none",
+  "githubPages": false,
+  "hideBreadcrumbs": false,
+  "excludeInternal": true,
+  "sort": ["source-order"],
+  "name": "API Reference"
+}

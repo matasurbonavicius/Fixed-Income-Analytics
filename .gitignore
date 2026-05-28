@@ -23,6 +23,11 @@ npm-debug.log*
 .env.*
 !.env.example
 
+# Generated docs (TypeDoc API output + VitePress build/cache)
+docs/api/
+docs/.vitepress/dist/
+docs/.vitepress/cache/
+
 # Python (calendar generator)
 __pycache__/
 *.pyc

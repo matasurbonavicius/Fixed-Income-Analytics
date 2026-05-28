@@ -2,10 +2,16 @@
 
 A **dependency-free TypeScript engine for fixed-income analytics** — bond pricing, yield, accrued interest, duration, and portfolio-level metrics, computed across the day-count conventions and financial calendars used in real markets.
 
+[![npm version](https://img.shields.io/npm/v/bond-analytics.svg)](https://www.npmjs.com/package/bond-analytics)
+[![npm downloads](https://img.shields.io/npm/dm/bond-analytics.svg)](https://www.npmjs.com/package/bond-analytics)
 [![CI](https://github.com/matasurbonavicius/Bond-Analytics/actions/workflows/ci.yml/badge.svg)](https://github.com/matasurbonavicius/Bond-Analytics/actions/workflows/ci.yml)
+[![codecov](https://codecov.io/gh/matasurbonavicius/Bond-Analytics/branch/main/graph/badge.svg)](https://codecov.io/gh/matasurbonavicius/Bond-Analytics)
+[![minzipped size](https://img.shields.io/bundlephobia/minzip/bond-analytics)](https://bundlephobia.com/package/bond-analytics)
 [![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](./LICENSE)
 ![Runtime dependencies: 0](https://img.shields.io/badge/runtime%20deps-0-brightgreen)
 ![Types: included](https://img.shields.io/badge/types-included-blue)
+
+📖 **[Documentation site](https://matasurbonavicius.github.io/Bond-Analytics/)** · [Guide](https://matasurbonavicius.github.io/Bond-Analytics/guide/introduction) · [API Reference](https://matasurbonavicius.github.io/Bond-Analytics/api/)
 
 ```ts
 import { BondCalculationService, Bond, Money, Percentage, Currency, UTCDate } from "bond-analytics";
@@ -150,9 +156,9 @@ src/
 └── calendars/      holiday data + types (generated from QuantLib)
 ```
 
-The dependency rule is strict and one-directional: `application → domain`, and `domain` depends on nothing. See [`docs/ARCHITECTURE.md`](./docs/ARCHITECTURE.md).
+The dependency rule is strict and one-directional: `application → domain`, and `domain` depends on nothing. See [`docs/guide/architecture.md`](./docs/guide/architecture.md).
 
-The financial methodology — pricing identities, the yield solver, day-count math, duration — is documented in [`docs/METHODOLOGY.md`](./docs/METHODOLOGY.md).
+The financial methodology — pricing identities, the yield solver, day-count math, duration — is documented in [`docs/guide/methodology.md`](./docs/guide/methodology.md).
 
 ## Design principles
 
@@ -166,10 +172,26 @@ The financial methodology — pricing identities, the yield solver, day-count ma
 ```bash
 npm install
 npm run typecheck     # tsc --noEmit
-npm test              # vitest (175 tests)
+npm test              # vitest (307 tests)
 npm run test:coverage
 npm run build         # tsup → ESM + CJS + .d.ts
+npm run docs:dev      # VitePress + TypeDoc docs site (local)
+npm run docs:build    # build the static docs site
 ```
+
+## Publishing
+
+Releases publish to npm automatically when a GitHub Release is published, via
+[`.github/workflows/release.yml`](./.github/workflows/release.yml) (with npm
+provenance). It requires an `NPM_TOKEN` repository secret. To cut a release:
+
+```bash
+npm version <patch|minor|major>   # bumps package.json + tags
+git push --follow-tags
+# then publish a GitHub Release for that tag
+```
+
+To publish manually instead: `npm login && npm publish`.
 
 ## License
 

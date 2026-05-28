@@ -91,7 +91,7 @@ Wraps each pure domain formula in a small adapter that declares its dependencies
 
 ### Serialization (`application/calculations`)
 
-`serialize*` / `hydrate*` convert entities and value objects to and from plain JSON so results can cross a process or network boundary and be reconstructed losslessly (round-trips are tested in [`serialize.test.ts`](../tests/application/serialize.test.ts)).
+`serialize*` / `hydrate*` convert entities and value objects to and from plain JSON so results can cross a process or network boundary and be reconstructed losslessly (round-trips are tested in [`serialize.test.ts`](https://github.com/matasurbonavicius/Bond-Analytics/blob/main/tests/application/serialize.test.ts)).
 
 ## Conventions that keep it clean
 
@@ -106,4 +106,4 @@ Wraps each pure domain formula in a small adapter that declares its dependencies
 - **Property/invariant tests** prove correctness without external constants: price→yield→price round-trips, par/premium/discount relationships, monotonic accrual, serialization round-trips, portfolio bounds.
 - **Convention tests** lock day-count and business-day edge cases (30/360 variants, month-boundary roll-back, real holidays).
 
-See [`METHODOLOGY.md`](./METHODOLOGY.md) for the financial math itself.
+See [`METHODOLOGY.md`](./methodology) for the financial math itself.

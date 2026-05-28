@@ -38,8 +38,14 @@
       "require": "./dist/index.cjs"
     }
   },
+  "publishConfig": {
+    "access": "public"
+  },
   "files": [
-    "dist",
+    "dist/**/*.js",
+    "dist/**/*.cjs",
+    "dist/**/*.d.ts",
+    "dist/**/*.d.cts",
     "README.md",
     "LICENSE"
   ],
@@ -51,6 +57,10 @@
     "test:coverage": "vitest run --coverage",
     "lint": "eslint . --report-unused-disable-directives",
     "example": "tsx",
+    "docs:api": "typedoc",
+    "docs:dev": "npm run docs:api && vitepress dev docs",
+    "docs:build": "npm run docs:api && vitepress build docs",
+    "docs:preview": "vitepress preview docs",
     "prepublishOnly": "npm run typecheck && npm run test && npm run build"
   },
   "engines": {
@@ -63,8 +73,12 @@
     "eslint": "^9.39.4",
     "tsup": "^8.3.0",
     "tsx": "^4.19.0",
+    "typedoc": "^0.28.19",
+    "typedoc-plugin-markdown": "^4.11.0",
+    "typedoc-vitepress-theme": "^1.1.2",
     "typescript": "^5.9.2",
     "typescript-eslint": "^8.60.0",
+    "vitepress": "^1.6.4",
     "vitest": "^3.0.0"
   }
 }
