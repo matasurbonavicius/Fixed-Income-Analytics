@@ -36,6 +36,11 @@ jobs:
       - name: Build docs
         run: npm run docs:build
 
+      - name: Generate coverage badge
+        run: |
+          npm run test:coverage
+          node scripts/coverage-badge.mjs docs/.vitepress/dist/coverage-badge.json
+
       - uses: actions/configure-pages@v5
 
       - uses: actions/upload-pages-artifact@v3

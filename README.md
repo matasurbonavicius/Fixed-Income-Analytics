@@ -5,7 +5,7 @@ A **dependency-free TypeScript engine for fixed-income analytics** — bond pric
 [![npm version](https://img.shields.io/npm/v/bond-analytics.svg)](https://www.npmjs.com/package/bond-analytics)
 [![npm downloads](https://img.shields.io/npm/dm/bond-analytics.svg)](https://www.npmjs.com/package/bond-analytics)
 [![CI](https://github.com/matasurbonavicius/Bond-Analytics/actions/workflows/ci.yml/badge.svg)](https://github.com/matasurbonavicius/Bond-Analytics/actions/workflows/ci.yml)
-[![codecov](https://codecov.io/gh/matasurbonavicius/Bond-Analytics/branch/main/graph/badge.svg)](https://codecov.io/gh/matasurbonavicius/Bond-Analytics)
+[![coverage](https://img.shields.io/endpoint?url=https%3A%2F%2Fmatasurbonavicius.github.io%2FBond-Analytics%2Fcoverage-badge.json)](https://matasurbonavicius.github.io/Bond-Analytics/)
 [![minzipped size](https://img.shields.io/bundlephobia/minzip/bond-analytics)](https://bundlephobia.com/package/bond-analytics)
 [![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](./LICENSE)
 ![Runtime dependencies: 0](https://img.shields.io/badge/runtime%20deps-0-brightgreen)
