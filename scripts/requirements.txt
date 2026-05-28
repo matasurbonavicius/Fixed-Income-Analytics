@@ -1,0 +1,8 @@
+# Dependencies for generate-calendars.py
+# Regenerates src/calendars/financial_calendars.json from QuantLib's
+# authoritative holiday calendars. Run periodically (e.g. quarterly).
+#
+#   python -m venv .venv && source .venv/bin/activate
+#   pip install -r scripts/requirements.txt
+#   python scripts/generate-calendars.py
+QuantLib>=1.30
