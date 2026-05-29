@@ -1,6 +1,6 @@
 # Examples
 
-Runnable, self-contained scripts that exercise the bond-analytics pricing engine end to end. Each script builds a `Bond` entity and a `MarketDataStore`, runs `BondCalculationService.calculate`, and prints the resulting metrics (dirty/clean price, accrued interest, duration, discount rate) next to **Bloomberg reference values** for easy comparison.
+Runnable, self-contained scripts that exercise the Fixed Income Analytics pricing engine end to end. Each script builds a `Bond` entity and a `MarketDataStore`, runs `BondCalculationService.calculate`, and prints the resulting metrics (dirty/clean price, accrued interest, duration, discount rate) next to **Bloomberg reference values** for easy comparison.
 
 ## Running an example
 

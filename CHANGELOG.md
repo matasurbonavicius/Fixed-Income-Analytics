@@ -25,5 +25,5 @@ Initial public release.
 - Zero runtime dependencies; ESM + CommonJS builds with bundled type declarations.
 - 307 tests including Bloomberg-pinned golden values and price/yield round-trips.
 
-[Unreleased]: https://github.com/matasurbonavicius/Bond-Analytics/compare/v0.1.0...HEAD
-[0.1.0]: https://github.com/matasurbonavicius/Bond-Analytics/releases/tag/v0.1.0
+[Unreleased]: https://github.com/matasurbonavicius/Fixed-Income-Analytics/compare/v0.1.0...HEAD
+[0.1.0]: https://github.com/matasurbonavicius/Fixed-Income-Analytics/releases/tag/v0.1.0

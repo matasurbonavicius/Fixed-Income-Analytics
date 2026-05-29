@@ -2,11 +2,11 @@ import { defineConfig } from "vitepress";
 import typedocSidebar from "../api/typedoc-sidebar.json";
 
 export default defineConfig({
-  title: "Bond Analytics",
+  title: "Fixed Income Analytics",
   description:
     "A dependency-free TypeScript engine for fixed-income analytics — bond pricing, yield, accrued interest, duration, and portfolio metrics.",
   // GitHub Pages serves the site under /<repo>/.
-  base: "/Bond-Analytics/",
+  base: "/Fixed-Income-Analytics/",
   lastUpdated: true,
   cleanUrls: true,
   ignoreDeadLinks: true,
@@ -23,8 +23,8 @@ export default defineConfig({
       {
         text: "v0.1.0",
         items: [
-          { text: "Changelog", link: "https://github.com/matasurbonavicius/Bond-Analytics/blob/main/CHANGELOG.md" },
-          { text: "npm", link: "https://www.npmjs.com/package/bond-analytics" },
+          { text: "Changelog", link: "https://github.com/matasurbonavicius/Fixed-Income-Analytics/blob/main/CHANGELOG.md" },
+          { text: "npm", link: "https://www.npmjs.com/package/fixed-income-analytics" },
         ],
       },
     ],
@@ -51,7 +51,7 @@ export default defineConfig({
     },
 
     socialLinks: [
-      { icon: "github", link: "https://github.com/matasurbonavicius/Bond-Analytics" },
+      { icon: "github", link: "https://github.com/matasurbonavicius/Fixed-Income-Analytics" },
     ],
 
     search: {
@@ -60,7 +60,7 @@ export default defineConfig({
 
     editLink: {
       pattern:
-        "https://github.com/matasurbonavicius/Bond-Analytics/edit/main/docs/:path",
+        "https://github.com/matasurbonavicius/Fixed-Income-Analytics/edit/main/docs/:path",
       text: "Edit this page on GitHub",
     },
 

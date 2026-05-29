@@ -1,25 +1,25 @@
-# Bond Analytics
+# Fixed Income Analytics
 
 A **dependency-free TypeScript engine for fixed-income analytics** — bond pricing, yield, accrued interest, duration, and portfolio-level metrics, computed across the day-count conventions and financial calendars used in real markets.
 
-[![CI](https://github.com/matasurbonavicius/Bond-Analytics/actions/workflows/ci.yml/badge.svg)](https://github.com/matasurbonavicius/Bond-Analytics/actions/workflows/ci.yml)
-[![coverage](https://img.shields.io/endpoint?url=https%3A%2F%2Fmatasurbonavicius.github.io%2FBond-Analytics%2Fcoverage-badge.json)](https://matasurbonavicius.github.io/Bond-Analytics/)
+[![CI](https://github.com/matasurbonavicius/Fixed-Income-Analytics/actions/workflows/ci.yml/badge.svg)](https://github.com/matasurbonavicius/Fixed-Income-Analytics/actions/workflows/ci.yml)
+[![coverage](https://img.shields.io/endpoint?url=https%3A%2F%2Fmatasurbonavicius.github.io%2FFixed-Income-Analytics%2Fcoverage-badge.json)](https://matasurbonavicius.github.io/Fixed-Income-Analytics/)
 [![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](./LICENSE)
 ![Runtime dependencies: 0](https://img.shields.io/badge/runtime%20deps-0-brightgreen)
 ![Types: included](https://img.shields.io/badge/types-included-blue)
 
 <!-- Once published to npm, uncomment these registry-backed badges:
-[![npm version](https://img.shields.io/npm/v/bond-analytics.svg)](https://www.npmjs.com/package/bond-analytics)
-[![npm downloads](https://img.shields.io/npm/dm/bond-analytics.svg)](https://www.npmjs.com/package/bond-analytics)
-[![minzipped size](https://img.shields.io/bundlephobia/minzip/bond-analytics)](https://bundlephobia.com/package/bond-analytics)
+[![npm version](https://img.shields.io/npm/v/fixed-income-analytics.svg)](https://www.npmjs.com/package/fixed-income-analytics)
+[![npm downloads](https://img.shields.io/npm/dm/fixed-income-analytics.svg)](https://www.npmjs.com/package/fixed-income-analytics)
+[![minzipped size](https://img.shields.io/bundlephobia/minzip/fixed-income-analytics)](https://bundlephobia.com/package/fixed-income-analytics)
 -->
 
 > **Status:** pre-release — not yet published to npm.
 
-📖 **[Documentation site](https://matasurbonavicius.github.io/Bond-Analytics/)** · [Guide](https://matasurbonavicius.github.io/Bond-Analytics/guide/introduction) · [API Reference](https://matasurbonavicius.github.io/Bond-Analytics/api/)
+📖 **[Documentation site](https://matasurbonavicius.github.io/Fixed-Income-Analytics/)** · [Guide](https://matasurbonavicius.github.io/Fixed-Income-Analytics/guide/introduction) · [API Reference](https://matasurbonavicius.github.io/Fixed-Income-Analytics/api/)
 
 ```ts
-import { BondCalculationService, Bond, Money, Percentage, Currency, UTCDate } from "bond-analytics";
+import { BondCalculationService, Bond, Money, Percentage, Currency, UTCDate } from "fixed-income-analytics";
 
 const { updatedBond } = unwrap(
   await BondCalculationService.calculate(bond, marketDataStore, options)
@@ -38,7 +38,7 @@ Those numbers are not illustrative — they are pinned in the test suite against
 
 Most open-source bond math is either a thin YTM helper or a heavyweight wrapper around a C++ library. This engine sits in between: a **self-contained, strongly-typed, domain-driven** implementation of the calculations a fixed-income desk actually needs — with no native bindings, no framework, and **zero runtime dependencies**.
 
-It is the calculation core extracted from a larger bond-analytics platform, published as a standalone library.
+It is the calculation core extracted from a larger fixed-income analytics platform, published as a standalone library.
 
 ## Features
 
@@ -67,7 +67,7 @@ It is the calculation core extracted from a larger bond-analytics platform, publ
 ## Install
 
 ```bash
-npm install bond-analytics
+npm install fixed-income-analytics
 ```
 
 Ships ESM + CommonJS builds with bundled type declarations. Requires Node 18+ (or any modern bundler).
@@ -79,7 +79,7 @@ import {
   Bond, BondCalculationService,
   MarketDataStore, BondFormulaOptions,
   Currency, Money, Percentage, BondId, CreditRating, UTCDate,
-} from "bond-analytics";
+} from "fixed-income-analytics";
 
 // every factory returns a Result<T> — no thrown exceptions
 const must = <T>(r: { success: true; value: T } | { success: false; error: string }): T => {

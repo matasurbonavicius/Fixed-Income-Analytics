@@ -1,5 +1,5 @@
 {
-  "name": "bond-analytics",
+  "name": "fixed-income-analytics",
   "version": "0.1.0",
   "description": "A dependency-free TypeScript engine for fixed-income analytics — bond pricing, yield, accrued interest, duration, and portfolio metrics across day-count conventions and financial calendars.",
   "type": "module",
@@ -7,11 +7,11 @@
   "author": "Matas Urbonavičius",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/matasurbonavicius/Bond-Analytics.git"
+    "url": "git+https://github.com/matasurbonavicius/Fixed-Income-Analytics.git"
   },
-  "homepage": "https://github.com/matasurbonavicius/Bond-Analytics#readme",
+  "homepage": "https://github.com/matasurbonavicius/Fixed-Income-Analytics#readme",
   "bugs": {
-    "url": "https://github.com/matasurbonavicius/Bond-Analytics/issues"
+    "url": "https://github.com/matasurbonavicius/Fixed-Income-Analytics/issues"
   },
   "keywords": [
     "bond",

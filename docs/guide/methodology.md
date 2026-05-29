@@ -1,6 +1,6 @@
 # Methodology
 
-This document describes the financial mathematics the engine implements and the conventions it follows. It is meant to be read alongside the source in [`src/domain/formulas/`](https://github.com/matasurbonavicius/Bond-Analytics/blob/main/src/domain/formulas).
+This document describes the financial mathematics the engine implements and the conventions it follows. It is meant to be read alongside the source in [`src/domain/formulas/`](https://github.com/matasurbonavicius/Fixed-Income-Analytics/blob/main/src/domain/formulas).
 
 All calculations are expressed in terms of a **settlement date** (when cash and title change hands) and an **analysis date** (the as-of date of the market data). Prices are quoted per 100 of face (the engine carries them internally as decimal fractions on a `Percentage` value object).
 
@@ -8,7 +8,7 @@ All calculations are expressed in terms of a **settlement date** (when cash and 
 
 ## 1. Day-count conventions
 
-Every time-weighted quantity — accrued interest, discounting, duration — depends on how the fraction of a year between two dates is measured. The engine implements the conventions in [`utilities/dayCountConventions.ts`](https://github.com/matasurbonavicius/Bond-Analytics/blob/main/src/domain/formulas/utilities/dayCountConventions.ts):
+Every time-weighted quantity — accrued interest, discounting, duration — depends on how the fraction of a year between two dates is measured. The engine implements the conventions in [`utilities/dayCountConventions.ts`](https://github.com/matasurbonavicius/Fixed-Income-Analytics/blob/main/src/domain/formulas/utilities/dayCountConventions.ts):
 
 | Convention | Year fraction between `d1` and `d2` |
 |---|---|
@@ -23,7 +23,7 @@ Every time-weighted quantity — accrued interest, discounting, duration — dep
 | `30_366` | 30/360-style numerator over a 366 year |
 | `1_1` | one period = 1.0 (counts whole periods) |
 
-The 30/360 family differs only in how the 31st (and, for US, end-of-February) is rolled to 30 before the arithmetic. The test suite ([`dayCountConventions.test.ts`](https://github.com/matasurbonavicius/Bond-Analytics/blob/main/tests/domain/formulas/utilities/dayCountConventions.test.ts)) pins the variant-distinguishing cases.
+The 30/360 family differs only in how the 31st (and, for US, end-of-February) is rolled to 30 before the arithmetic. The test suite ([`dayCountConventions.test.ts`](https://github.com/matasurbonavicius/Fixed-Income-Analytics/blob/main/tests/domain/formulas/utilities/dayCountConventions.test.ts)) pins the variant-distinguishing cases.
 
 ---
 
@@ -37,7 +37,7 @@ AI = FaceValue × CouponRate × DCF(t₀, t_s)
 
 where `DCF` is the day-count fraction for the bond's convention. The engine reports both the money amount and the accrued-day count, and resets AI to zero on each coupon date.
 
-A **zero-coupon** bond never accrues — `AI = 0`, and its clean and dirty prices are identical. Both behaviours are asserted in [`pricing.test.ts`](https://github.com/matasurbonavicius/Bond-Analytics/blob/main/tests/domain/formulas/pricing.test.ts).
+A **zero-coupon** bond never accrues — `AI = 0`, and its clean and dirty prices are identical. Both behaviours are asserted in [`pricing.test.ts`](https://github.com/matasurbonavicius/Fixed-Income-Analytics/blob/main/tests/domain/formulas/pricing.test.ts).
 
 ---
 
@@ -65,7 +65,7 @@ with `t_k` the day-count time from settlement to flow `k`. The **clean price** r
 CleanPrice = DirtyPrice − AccruedInterest
 ```
 
-On a coupon date (zero accrued) clean equals dirty; when the yield equals the coupon rate the bond prices at par; yields below the coupon produce a premium and above it a discount. These identities are the backbone of [`pricing.test.ts`](https://github.com/matasurbonavicius/Bond-Analytics/blob/main/tests/domain/formulas/pricing.test.ts).
+On a coupon date (zero accrued) clean equals dirty; when the yield equals the coupon rate the bond prices at par; yields below the coupon produce a premium and above it a discount. These identities are the backbone of [`pricing.test.ts`](https://github.com/matasurbonavicius/Fixed-Income-Analytics/blob/main/tests/domain/formulas/pricing.test.ts).
 
 ### Zero-coupon
 
@@ -99,7 +99,7 @@ For a fixed-rate bond there is no closed form for `y`, so the engine solves
 PV(y) − DirtyPrice = 0
 ```
 
-with **Newton–Raphson** (the price/yield function is smooth and monotonic), compounding at the coupon frequency. The solver round-trips to better than `1e-6`: pricing at a known yield and feeding the price back recovers the yield (see [`discountRate.test.ts`](https://github.com/matasurbonavicius/Bond-Analytics/blob/main/tests/domain/formulas/discountRate.test.ts)). The zero-coupon yield is obtained from a closed-form inverse with annual compounding. A short-maturity guard (under ~30 days) returns a simple holding-period return rather than annualising a tiny denominator.
+with **Newton–Raphson** (the price/yield function is smooth and monotonic), compounding at the coupon frequency. The solver round-trips to better than `1e-6`: pricing at a known yield and feeding the price back recovers the yield (see [`discountRate.test.ts`](https://github.com/matasurbonavicius/Fixed-Income-Analytics/blob/main/tests/domain/formulas/discountRate.test.ts)). The zero-coupon yield is obtained from a closed-form inverse with annual compounding. A short-maturity guard (under ~30 days) returns a simple holding-period return rather than annualising a tiny denominator.
 
 ---
 
@@ -112,7 +112,7 @@ A scheduled date that falls on a weekend or holiday is rolled under one of:
 - **`PRECEDING`** / **`MODIFIED_PRECEDING`** — the mirror images.
 - **`UNADJUSTED`** — leave the date as-is.
 
-Business days are determined per **holiday calendar**. The calendars (NYSE, US Government Securities, SOFR, TARGET, LSE, EUREX, TSE, weekend-only) are generated from [QuantLib](https://www.quantlib.org/) by [`scripts/generate-calendars.py`](../scripts/generate-calendars.py) into a static JSON snapshot, so the engine itself needs no native dependency. Years outside the generated range fall back to weekend-only. Behaviour — including the month-boundary roll-back — is pinned in [`businessDay.test.ts`](https://github.com/matasurbonavicius/Bond-Analytics/blob/main/tests/domain/formulas/utilities/businessDay.test.ts).
+Business days are determined per **holiday calendar**. The calendars (NYSE, US Government Securities, SOFR, TARGET, LSE, EUREX, TSE, weekend-only) are generated from [QuantLib](https://www.quantlib.org/) by [`scripts/generate-calendars.py`](../scripts/generate-calendars.py) into a static JSON snapshot, so the engine itself needs no native dependency. Years outside the generated range fall back to weekend-only. Behaviour — including the month-boundary roll-back — is pinned in [`businessDay.test.ts`](https://github.com/matasurbonavicius/Fixed-Income-Analytics/blob/main/tests/domain/formulas/utilities/businessDay.test.ts).
 
 ---
 
@@ -139,7 +139,7 @@ Given positions `{ bond, quantity }` whose per-bond metrics have been computed:
 - **Average discount rate** = market-value-weighted average yield.
 - **Aggregated cash flows** = union of constituent flows on a common timeline.
 
-Multi-currency portfolios convert each position with the FX rate from the market-data snapshot at the settlement date; same-currency positions skip conversion. See [`portfolio.test.ts`](https://github.com/matasurbonavicius/Bond-Analytics/blob/main/tests/application/portfolio.test.ts).
+Multi-currency portfolios convert each position with the FX rate from the market-data snapshot at the settlement date; same-currency positions skip conversion. See [`portfolio.test.ts`](https://github.com/matasurbonavicius/Fixed-Income-Analytics/blob/main/tests/application/portfolio.test.ts).
 
 ---
 

@@ -3,7 +3,7 @@
 ## Install
 
 ```bash
-npm install bond-analytics
+npm install fixed-income-analytics
 ```
 
 The package ships ESM + CommonJS builds with bundled type declarations. It requires Node 18+ (or any modern bundler) and has **no runtime dependencies**.
@@ -15,7 +15,7 @@ import {
   Bond, BondCalculationService,
   MarketDataStore, BondFormulaOptions,
   Currency, Money, Percentage, BondId, CreditRating, UTCDate,
-} from "bond-analytics";
+} from "fixed-income-analytics";
 
 // every factory returns a Result<T> — no thrown exceptions
 const must = <T>(r: { success: true; value: T } | { success: false; error: string }): T => {

@@ -91,7 +91,7 @@ Wraps each pure domain formula in a small adapter that declares its dependencies
 
 ### Serialization (`application/calculations`)
 
-`serialize*` / `hydrate*` convert entities and value objects to and from plain JSON so results can cross a process or network boundary and be reconstructed losslessly (round-trips are tested in [`serialize.test.ts`](https://github.com/matasurbonavicius/Bond-Analytics/blob/main/tests/application/serialize.test.ts)).
+`serialize*` / `hydrate*` convert entities and value objects to and from plain JSON so results can cross a process or network boundary and be reconstructed losslessly (round-trips are tested in [`serialize.test.ts`](https://github.com/matasurbonavicius/Fixed-Income-Analytics/blob/main/tests/application/serialize.test.ts)).
 
 ## Conventions that keep it clean
 

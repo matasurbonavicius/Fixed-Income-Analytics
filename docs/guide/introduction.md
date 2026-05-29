@@ -1,8 +1,8 @@
 # Introduction
 
-**Bond Analytics** is a dependency-free TypeScript engine for fixed-income analytics — bond pricing, yield, accrued interest, duration, and portfolio-level metrics, computed across the day-count conventions and financial calendars used in real markets.
+**Fixed Income Analytics** is a dependency-free TypeScript engine for fixed-income analytics — bond pricing, yield, accrued interest, duration, and portfolio-level metrics, computed across the day-count conventions and financial calendars used in real markets.
 
-It is the calculation core extracted from a larger bond-analytics platform, published as a standalone library.
+It is the calculation core extracted from a larger fixed-income analytics platform, published as a standalone library.
 
 ## Why it exists
 
