@@ -12,7 +12,7 @@ function isLastDayOfFebruary(date: UTCDate): boolean {
 }
 
 // Count the number of 29-February dates falling in [start, end) (start
-// inclusive, end exclusive — matching `actualDays`). Used by NL/365.
+// inclusive, end exclusive - matching `actualDays`). Used by NL/365.
 function countLeapDays(start: UTCDate, end: UTCDate): number {
   let count = 0;
   for (let year = start.year; year <= end.year; year++) {
@@ -84,7 +84,7 @@ function calculate_ACT_364(startDate: UTCDate, endDate: UTCDate): number {
  * Actual/366 (NON-STANDARD)
  * Actual days / 366 (always).
  *
- * Not a recognised market convention — included as a fixed leap-year-length
+ * Not a recognised market convention - included as a fixed leap-year-length
  * basis alongside Actual/365 Fixed. Slightly deflates the fraction versus
  * Actual/365 Fixed.
  */
@@ -106,7 +106,7 @@ function calculate_NL_365(startDate: UTCDate, endDate: UTCDate): number {
 }
 
 /**
- * Actual/Actual (ISDA)  — aka Act/Act, Act/365
+ * Actual/Actual (ISDA)  - aka Act/Act, Act/365
  * Splits the period at calendar-year boundaries: days falling in a common year
  * are divided by 365, days in a leap year by 366, and the two are summed.
  *
@@ -155,7 +155,7 @@ function calculate_ACT_ACT(startDate: UTCDate, endDate: UTCDate): number {
 }
 
 /**
- * Actual/Actual (AFB)  — Association Française des Banques
+ * Actual/Actual (AFB)  - Association Française des Banques
  * Count complete years backward from the end date; each contributes 1.0. The
  * remaining stub is `stub days / DiY`, where DiY = 366 when a 29 February falls
  * inside the stub (start inclusive, end exclusive) and 365 otherwise.
@@ -185,7 +185,7 @@ function calculate_ACT_ACT_AFB(startDate: UTCDate, endDate: UTCDate): number {
 }
 
 /**
- * 30/360 Bond Basis (30A/360)  — exposed in the UI as "30/360 US"
+ * 30/360 Bond Basis (30A/360)  - exposed in the UI as "30/360 US"
  * Assumes 30-day months and a 360-day year, with the simplest end-of-month rules:
  *   D1 = min(D1, 30)
  *   if D1 was 30 or 31 (i.e. > 29): D2 = min(D2, 30)
@@ -217,7 +217,7 @@ function calculate_30_360_US(startDate: UTCDate, endDate: UTCDate): number {
 }
 
 /**
- * 30/360 US (NASD / SIA)  — the full US variant including February rules.
+ * 30/360 US (NASD / SIA)  - the full US variant including February rules.
  * End-of-month (EOM) handling is assumed ON, applied in this exact order:
  *   1. if D1 is last day of Feb AND D2 is last day of Feb: D2 = 30
  *   2. if D1 is last day of Feb:                            D1 = 30
@@ -259,7 +259,7 @@ function calculate_30_360_US_NASD(startDate: UTCDate, endDate: UTCDate): number 
 }
 
 /**
- * 30E/360 (Eurobond basis, 30/360 ICMA)  — exposed in the UI as "30/360 EU"
+ * 30E/360 (Eurobond basis, 30/360 ICMA)  - exposed in the UI as "30/360 EU"
  * Assumes 30-day months and a 360-day year, with symmetric rules:
  *   if D1 = 31: D1 = 30
  *   if D2 = 31: D2 = 30
@@ -292,7 +292,7 @@ function calculate_30_360_EU(startDate: UTCDate, endDate: UTCDate): number {
 /**
  * 30/366 (NON-STANDARD)
  * 30/360-style numerator (using the symmetric 30E/360 day rules) divided by a
- * fixed 366-day year. Not a recognised market convention — included as a
+ * fixed 366-day year. Not a recognised market convention - included as a
  * leap-length analogue to 30/360, parallel to the non-standard Actual/366.
  */
 function calculate_30_366(startDate: UTCDate, endDate: UTCDate): number {
@@ -318,13 +318,16 @@ function calculate_30_366(startDate: UTCDate, endDate: UTCDate): number {
 
 /**
  * 1/1
- * Always returns a factor of 1.0 for the period — used where a single fixed
+ * Always returns a factor of 1.0 for the period - used where a single fixed
  * payment is made per period regardless of the actual elapsed time.
  */
 function calculate_1_1(_startDate: UTCDate, _endDate: UTCDate): number {
   return 1;
 }
 
+/**
+ * @category Calendars & Day-Count
+ */
 export type DayCountConvention =
   | "ACT_365" // Actual/365 Fixed
   | "ACT_366" // Actual/366 (non-standard)
@@ -347,6 +350,9 @@ export type DayCountConvention =
 // Add them once dayCountFraction is given the coupon context it would require.
 
 // Returns the time fraction between two dates according to the specified convention
+/**
+ * @category Calendars & Day-Count
+ */
 export function dayCountFraction(
   startDate: UTCDate,
   endDate: UTCDate,
@@ -396,7 +402,7 @@ export function dayCountFraction(
 
 /**
  * Returns the integer number of days a convention actually *counts* between two
- * dates — i.e. the numerator of the day-count fraction. This is distinct from
+ * dates - i.e. the numerator of the day-count fraction. This is distinct from
  * the raw calendar-day gap (`UTCDate.daysUntil`):
  *
  *   - ACT/* (and Act/Act ISDA & AFB): counts the true elapsed calendar days, so
@@ -408,6 +414,9 @@ export function dayCountFraction(
  *     fraction × year-basis.
  *
  * Useful for surfacing *why* a 30/360 fraction differs from the calendar gap.
+ */
+/**
+ * @category Calendars & Day-Count
  */
 export function dayCountDays(
   startDate: UTCDate,

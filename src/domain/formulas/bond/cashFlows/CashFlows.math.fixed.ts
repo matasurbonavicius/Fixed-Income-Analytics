@@ -6,6 +6,7 @@ import {
 } from "./CashFlows.types";
 import { Money } from "@domain/valueObjects/Money";
 
+/** @internal */
 export function generateCashFlowsFixed(
   input: CashFlowFixedInput
 ): Result<CashFlowSchedule> {
@@ -90,7 +91,7 @@ export function generateCashFlowsFixed(
     totalInflows = addInflowResult.value;
   }
 
-  // Principal is repaid at maturity — always, regardless of whether a coupon
+  // Principal is repaid at maturity - always, regardless of whether a coupon
   // also lands on that date. They are separate financial events.
   //
   // The previous implementation gated the principal on

@@ -2,6 +2,7 @@ import { Result, ResultHelper } from "@domain/shared";
 import { CleanPriceZeroFromDirtyInput } from "./CleanPrice.types";
 import { validateDirtyPrice } from "@domain/formulas";
 
+/** @internal */
 export function validateCleanPriceZero(
   input: CleanPriceZeroFromDirtyInput
 ): Result<undefined> {

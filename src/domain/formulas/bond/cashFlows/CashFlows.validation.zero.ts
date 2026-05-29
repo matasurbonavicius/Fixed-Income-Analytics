@@ -2,6 +2,7 @@ import { CashFlowZeroInput } from "./CashFlows.types";
 import { Result, ResultHelper } from "@domain/shared";
 import { validateFaceValue } from "@domain/formulas";
 
+/** @internal */
 export function validateCashFlowZero(
   input: CashFlowZeroInput
 ): Result<undefined> {

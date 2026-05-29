@@ -1,6 +1,7 @@
 import { Result, ResultHelper } from "@domain/shared";
 import { MacaulayDurationZeroInput } from "./Duration.types";
 
+/** @internal */
 export function validateDurationZero(
   input: MacaulayDurationZeroInput
 ): Result<undefined> {

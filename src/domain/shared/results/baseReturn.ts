@@ -1,4 +1,7 @@
 // Discriminated union with string errors
+/**
+ * @category Results & Types
+ */
 export type Result<T> =
   | { success: true; value: T }
   | { success: false; error: string };
@@ -16,6 +19,9 @@ export type Result<T> =
 * Infrastructure: Third context layer
 */
 
+/**
+ * @category Results & Types
+ */
 export class ResultHelper {
   static success<T>(value: T): Result<T> {
     return { success: true, value };

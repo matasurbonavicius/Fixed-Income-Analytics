@@ -2,6 +2,7 @@ import { Result, ResultHelper } from "@domain/shared";
 import { MacaulayDurationFixedInput } from "./Duration.types";
 import { validateFaceValue, validateFixedRate, validateFrequency } from "@domain/formulas";
 
+/** @internal */
 export function validateDurationFixed(
   input: MacaulayDurationFixedInput
 ): Result<undefined> {

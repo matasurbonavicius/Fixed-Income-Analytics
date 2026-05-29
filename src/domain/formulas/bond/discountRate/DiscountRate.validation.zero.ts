@@ -2,6 +2,7 @@ import { Result, ResultHelper } from "@domain/shared";
 import { ImpliedRateZeroInput } from "./DiscountRate.types";
 import { validateMarketPrice } from "@domain/formulas";
 
+/** @internal */
 export function validateImpliedRateZero(
   input: ImpliedRateZeroInput
 ): Result<undefined> {

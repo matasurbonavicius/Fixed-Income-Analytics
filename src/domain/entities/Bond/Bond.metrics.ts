@@ -1,6 +1,9 @@
 import { Percentage, UTCDate } from "@domain/valueObjects";
 import { CashFlowSchedule, DurationResult, DiscountRateResult, AccruedInterestResult } from "@domain/formulas";
 
+/**
+ * @category Bond Types & Shapes
+ */
 export interface BondMetrics {
   bondId: string;
   calculationDate: UTCDate;
@@ -17,7 +20,7 @@ export interface BondMetrics {
   cashFlows?: CashFlowSchedule;
 
   // === DURATION & CONVEXITY ===
-  duration?: DurationResult;
+  duration?: DurationResult; // carries Macaulay/modified/dollar duration plus convexity
 
   // Need to add current yield
 }

@@ -1,6 +1,6 @@
 # Bond Analytics
 
-A **dependency-free TypeScript engine for fixed-income analytics** — bond pricing, yield, accrued interest, duration, and portfolio-level metrics, computed across the day-count conventions and financial calendars used in real markets.
+A **dependency-free TypeScript engine for fixed-income analytics** - bond pricing, yield, accrued interest, duration, and portfolio-level metrics, computed across the day-count conventions and financial calendars used in real markets.
 
 [![CI](https://github.com/matasurbonavicius/Bond-Analytics/actions/workflows/ci.yml/badge.svg)](https://github.com/matasurbonavicius/Bond-Analytics/actions/workflows/ci.yml)
 [![coverage](https://img.shields.io/endpoint?url=https%3A%2F%2Fmatasurbonavicius.github.io%2FBond-Analytics%2Fcoverage-badge.json)](https://matasurbonavicius.github.io/Bond-Analytics/)
@@ -14,7 +14,7 @@ A **dependency-free TypeScript engine for fixed-income analytics** — bond pric
 [![minzipped size](https://img.shields.io/bundlephobia/minzip/bond-analytics)](https://bundlephobia.com/package/bond-analytics)
 -->
 
-> **Status:** pre-release — not yet published to npm.
+> **Status:** pre-release - not yet published to npm.
 
 📖 **[Documentation site](https://matasurbonavicius.github.io/Bond-Analytics/)** · [Guide](https://matasurbonavicius.github.io/Bond-Analytics/guide/introduction) · [API Reference](https://matasurbonavicius.github.io/Bond-Analytics/api/)
 
@@ -30,13 +30,13 @@ updatedBond.props.metrics.duration.modifiedDuration;     // 4.825
 updatedBond.props.metrics.discountRate.discountRate.asPercent; // 3.0341
 ```
 
-Those numbers are not illustrative — they are pinned in the test suite against **Bloomberg-computed reference values** for real Lithuanian government bonds (see [`tests/application/bondCalculation.golden.test.ts`](./tests/application/bondCalculation.golden.test.ts)).
+Those numbers are not illustrative - they are pinned in the test suite against **Bloomberg-computed reference values** for real Lithuanian government bonds (see [`tests/application/bondCalculation.golden.test.ts`](./tests/application/bondCalculation.golden.test.ts)).
 
 ---
 
 ## Why this exists
 
-Most open-source bond math is either a thin YTM helper or a heavyweight wrapper around a C++ library. This engine sits in between: a **self-contained, strongly-typed, domain-driven** implementation of the calculations a fixed-income desk actually needs — with no native bindings, no framework, and **zero runtime dependencies**.
+Most open-source bond math is either a thin YTM helper or a heavyweight wrapper around a C++ library. This engine sits in between: a **self-contained, strongly-typed, domain-driven** implementation of the calculations a fixed-income desk actually needs - with no native bindings, no framework, and **zero runtime dependencies**.
 
 It is the calculation core extracted from a larger bond-analytics platform, published as a standalone library.
 
@@ -52,7 +52,7 @@ It is the calculation core extracted from a larger bond-analytics platform, publ
 - **Cash-flow schedule** (coupons + principal, optional purchase outflow)
 - **Discount rate / yield** via a configurable waterfall:
   `implied_from_price → official_rating → internal_rating → manual_spread → manual_rate`
-- **Duration** — Macaulay, modified, and dollar duration
+- **Duration** - Macaulay, modified, and dollar duration
 
 **Portfolio metrics**
 - Total market value, portfolio Macaulay/modified/dollar duration
@@ -62,7 +62,7 @@ It is the calculation core extracted from a larger bond-analytics platform, publ
 **Market conventions**
 - **Day count:** `ACT/ACT`, `ACT/365`, `ACT/360`, `ACT/364`, `ACT/366`, `ACT/ACT (AFB)`, `NL/365`, `30/360 (US/NASD/EU)`, `30/366`, `1/1`
 - **Business-day adjustment:** `FOLLOWING`, `MODIFIED_FOLLOWING`, `PRECEDING`, `MODIFIED_PRECEDING`, `UNADJUSTED`
-- **Holiday calendars:** NYSE, US Government Securities, SOFR, TARGET (EUR), LSE, EUREX, TSE, weekend-only — generated from [QuantLib](https://www.quantlib.org/) (see [`scripts/generate-calendars.py`](./scripts/generate-calendars.py))
+- **Holiday calendars:** NYSE, US Government Securities, SOFR, TARGET (EUR), LSE, EUREX, TSE, weekend-only - generated from [QuantLib](https://www.quantlib.org/) (see [`scripts/generate-calendars.py`](./scripts/generate-calendars.py))
 
 ## Install
 
@@ -81,7 +81,7 @@ import {
   Currency, Money, Percentage, BondId, CreditRating, UTCDate,
 } from "bond-analytics";
 
-// every factory returns a Result<T> — no thrown exceptions
+// every factory returns a Result<T> - no thrown exceptions
 const must = <T>(r: { success: true; value: T } | { success: false; error: string }): T => {
   if (!r.success) throw new Error(r.error);
   return r.value;
@@ -146,7 +146,7 @@ npx tsx examples/bond.fixed.fromprice.demo.ts
 
 ```
 src/
-├── domain/         pure financial model — no I/O, no framework
+├── domain/         pure financial model - no I/O, no framework
 │   ├── valueObjects/   Money · Percentage · Currency · CreditRating · UTCDate · BondId
 │   ├── entities/       Bond · Portfolio
 │   ├── dataStructures/ MarketData · MarketDataStore (yield curves, FX, spreads, prices)
@@ -161,9 +161,9 @@ src/
 └── calendars/      holiday data + types (generated from QuantLib)
 ```
 
-The dependency rule is strict and one-directional: `application → domain`, and `domain` depends on nothing. See [`docs/guide/architecture.md`](./docs/guide/architecture.md).
+The dependency rule is strict and one-directional: `application → domain`, and `domain` depends on nothing. See [`docs/concepts/architecture.md`](./docs/concepts/architecture.md).
 
-The financial methodology — pricing identities, the yield solver, day-count math, duration — is documented in [`docs/guide/methodology.md`](./docs/guide/methodology.md).
+The financial methodology - pricing identities, the yield solver, day-count math, duration - is documented in [`docs/concepts/methodology.md`](./docs/concepts/methodology.md), and the rationale behind the design in [`docs/concepts/design-decisions.md`](./docs/concepts/design-decisions.md).
 
 ## Design principles
 
@@ -177,7 +177,7 @@ The financial methodology — pricing identities, the yield solver, day-count ma
 ```bash
 npm install
 npm run typecheck     # tsc --noEmit
-npm test              # vitest (307 tests)
+npm test              # vitest
 npm run test:coverage
 npm run build         # tsup → ESM + CJS + .d.ts
 npm run docs:dev      # VitePress + TypeDoc docs site (local)
@@ -198,6 +198,15 @@ git push --follow-tags
 
 To publish manually instead: `npm login && npm publish`.
 
+## Contributing
+
+Contributions are welcome — please read [`CONTRIBUTING.md`](./CONTRIBUTING.md) first. The project is
+maintained under a benevolent-dictator model ([`GOVERNANCE.md`](./GOVERNANCE.md)), and contributions
+require agreeing to the [Contributor License Agreement](./CLA.md).
+
 ## License
 
 [Apache-2.0](./LICENSE) © Matas Urbonavičius
+
+The source code is Apache-2.0 — use it freely, including commercially. The **name "Bond Analytics"
+and any logo are not covered by that license**; see [`TRADEMARK.md`](./TRADEMARK.md).

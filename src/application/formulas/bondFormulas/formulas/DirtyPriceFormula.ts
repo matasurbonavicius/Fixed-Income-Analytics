@@ -7,6 +7,7 @@ import { getMarketPrice } from "@domain/dataStructures";
 import * as entities from "@domain/entities";
 import * as formulas from "@domain/formulas";
 
+/** @internal */
 export class DirtyPriceFormula extends BondFormula<Percentage> {
   constructor() {
     super("dirtyPrice");

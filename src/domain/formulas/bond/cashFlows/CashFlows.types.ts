@@ -5,6 +5,9 @@ import { CouponPayment } from "@domain/formulas";
 /**
  * Represents a single cash flow event
  */
+/**
+ * @category Results & Types
+ */
 export interface CashFlow {
   date: UTCDate;
   amount: Money;
@@ -14,6 +17,9 @@ export interface CashFlow {
 
 /**
  * Complete cash flow schedule for a bond
+ */
+/**
+ * @category Results & Types
  */
 export interface CashFlowSchedule {
   bondId: string;
@@ -27,6 +33,9 @@ export interface CashFlowSchedule {
 
 /**
  * Input for generating fixed rate bond cash flows
+ */
+/**
+ * @category Results & Types
  */
 export interface CashFlowFixedInput {
   bondId: string;
@@ -44,6 +53,9 @@ export interface CashFlowFixedInput {
 /**
  * Input for generating zero coupon bond cash flows
  */
+/**
+ * @category Results & Types
+ */
 export interface CashFlowZeroInput {
   bondId: string;
   faceValue: Money;
@@ -55,6 +67,9 @@ export interface CashFlowZeroInput {
 
 /**
  * Options for cash flow calculation
+ */
+/**
+ * @category Results & Types
  */
 export interface CashFlowOptions {
   includeInitialOutflow?: boolean; // Whether to include the purchase price as negative cash flow

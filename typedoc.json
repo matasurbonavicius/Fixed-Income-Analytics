@@ -9,6 +9,29 @@
   "githubPages": false,
   "hideBreadcrumbs": false,
   "excludeInternal": true,
+  "externalSymbolLinkMappings": {
+    "typescript": {
+      "Date": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date"
+    }
+  },
   "sort": ["source-order"],
+  "categorizeByGroup": false,
+  "navigation": {
+    "includeCategories": true,
+    "includeGroups": false,
+    "includeFolders": false
+  },
+  "categoryOrder": [
+    "Services",
+    "Value Objects",
+    "Entities",
+    "Bond Types & Shapes",
+    "Portfolio Types & Shapes",
+    "Market Data",
+    "Calendars & Day-Count",
+    "Formula Registry",
+    "Results & Types",
+    "*"
+  ],
   "name": "API Reference"
 }

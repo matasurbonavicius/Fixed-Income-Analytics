@@ -8,6 +8,9 @@ import { UTCDate } from "@domain/valueObjects";
  * If issue date is in the future (pre-IPO), settlement cannot occur before issue.
  * Returns issue date if it's after the proposed settlement date, otherwise returns settlement date.
  */
+/**
+ * @category Calendars & Day-Count
+ */
 export function adjustSettlement(
   proposedSettlementDate: UTCDate,
   issueDate: UTCDate | undefined | null,

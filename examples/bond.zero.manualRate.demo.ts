@@ -218,6 +218,11 @@ if (metrics.duration) {
       `Calculated Dollar: ${metrics.duration.dollarDuration.amount.toFixed(4)}`
     );
   }
+  if (metrics.duration.convexity !== undefined) {
+    console.log(
+      `Calculated Convexity: ${metrics.duration.convexity.toFixed(4)}`
+    );
+  }
 }
 console.log("Bloomberg Modified: 2.061");
 console.log();

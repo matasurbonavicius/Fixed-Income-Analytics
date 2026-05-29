@@ -5,6 +5,8 @@ import { validateFrequency, validateFixedRate, validateFaceValue } from "@domain
 /**
  * Validate inputs for fixed rate bond accrued interest calculation
  * Returns Result.success(input) if valid, Result.failure with all errors if invalid
+ *
+ * @internal
  */
 export function validateAccruedInterestFixed(
   input: AccruedInterestFixedInput

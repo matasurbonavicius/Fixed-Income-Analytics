@@ -2,6 +2,7 @@ import { TotalMarketValueInput } from "./TotalMarketValue.types";
 import { validatePositions } from "@domain/formulas";
 import { Result, ResultHelper } from "@domain/shared";
 
+/** @internal */
 export function validatePortfolioTotalMarketValue(
   input: TotalMarketValueInput
 ): Result<undefined> {

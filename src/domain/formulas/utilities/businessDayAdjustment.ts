@@ -42,9 +42,12 @@ function isHoliday(date: UTCDate, calendar: CalendarCode): boolean {
 
 /**
  * Returns all configured market holidays (ISO YYYY-MM-DD strings) for a calendar
- * in a given year, sorted ascending. Weekends are NOT included — these are the
+ * in a given year, sorted ascending. Weekends are NOT included - these are the
  * explicit holidays only. Returns an empty array when the calendar has no data
  * for that year (e.g. a year outside the loaded range).
+ */
+/**
+ * @category Calendars & Day-Count
  */
 export function getCalendarHolidays(
   calendar: CalendarCode,
@@ -65,6 +68,9 @@ export function getCalendarHolidays(
   return [...holidays].sort();
 }
 
+/**
+ * @category Calendars & Day-Count
+ */
 export function isBusinessDay(
   date: UTCDate,
   calendar: CalendarCode
@@ -146,6 +152,9 @@ function applyModifiedPreceding(date: UTCDate, calendar: CalendarCode): Result<U
  * Main business day adjustment function
  * Adjusts a date according to the specified convention and calendar
  */
+/**
+ * @category Calendars & Day-Count
+ */
 export function adjustForBusinessDay(
   date: UTCDate,
   convention: BusinessDayConvention,
@@ -182,6 +191,9 @@ export function adjustForBusinessDay(
 /**
  * Add business days to a date (skipping weekends/holidays)
  */
+/**
+ * @category Calendars & Day-Count
+ */
 export function addBusinessDays(
   date: UTCDate,
   days: number,
@@ -213,6 +225,9 @@ export function addBusinessDays(
 /**
  * Count business days between two dates (inclusive of start, exclusive of end)
  */
+/**
+ * @category Calendars & Day-Count
+ */
 export function countBusinessDays(
   startDate: UTCDate,
   endDate: UTCDate,
@@ -238,6 +253,9 @@ export function countBusinessDays(
 /**
  * Get the next business day from the given date
  */
+/**
+ * @category Calendars & Day-Count
+ */
 export function getNextBusinessDay(
   date: UTCDate,
   calendar: CalendarCode = "WEEKEND_ONLY"
@@ -247,6 +265,9 @@ export function getNextBusinessDay(
 
 /**
  * Get the previous business day from the given date
+ */
+/**
+ * @category Calendars & Day-Count
  */
 export function getPreviousBusinessDay(
   date: UTCDate,
@@ -258,6 +279,9 @@ export function getPreviousBusinessDay(
 /**
  * Check if calendar data is available for a given year
  */
+/**
+ * @category Calendars & Day-Count
+ */
 export function isYearSupported(year: number, calendar: CalendarCode): boolean {
   try {
     return year.toString() in calendarData.calendars[calendar].holidays;
@@ -268,6 +292,9 @@ export function isYearSupported(year: number, calendar: CalendarCode): boolean {
 
 /**
  * Get all holidays for a given year and calendar
+ */
+/**
+ * @category Calendars & Day-Count
  */
 export function getHolidaysForYear(
   year: number,
@@ -299,6 +326,9 @@ export function getHolidaysForYear(
 
 /**
  * Get calendar metadata
+ */
+/**
+ * @category Calendars & Day-Count
  */
 export function getCalendarMetadata() {
   return {

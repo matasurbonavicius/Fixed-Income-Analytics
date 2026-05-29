@@ -8,13 +8,68 @@ import { ALL_PORTFOLIO_FORMULAS } from "@application/formulas";
 import { PortfolioCurrencyConverter } from "../utils";
 import { BondCalculationService } from "./BondCalculationService";
 
+/**
+ * The successful outcome of {@link PortfolioCalculationService.calculate}.
+ *
+ * @category Results & Types
+ */
 export interface PortfolioCalculationServiceReturn {
+  /**
+   * A new {@link Portfolio} whose positions have been converted to the base
+   * currency, whose bonds carry metrics, and which carries portfolio-level
+   * `metrics`. The input portfolio is never mutated.
+   */
   updatedPortfolio: Portfolio;
+  /**
+   * One {@link EngineSummary} per bond whose metrics were computed during this
+   * run, keyed by {@link BondId}. Bonds that already had metrics are omitted.
+   */
   bondCalculationSummaries: { bondId: BondId; engineSummary: EngineSummary }[];
+  /** Summary for the portfolio-level aggregation pass. */
   portfolioCalculationSummary: EngineSummary;
 }
 
+/**
+ * Computes portfolio-level analytics by valuing each holding then aggregating.
+ *
+ * The calculation runs in two passes. First every position's {@link Bond} is
+ * converted into the portfolio's base currency (using FX rates from the market
+ * data) and given metrics via {@link BondCalculationService} if it lacks them.
+ * Then a {@link CalculationEngine} runs {@link ALL_PORTFOLIO_FORMULAS} over the
+ * prepared portfolio to produce aggregate measures - total market value,
+ * portfolio duration, average discount rate and netted cash flows - all
+ * expressed in the base currency. Successful formula results are mapped onto a
+ * `PortfolioMetrics` object by matching formula id to property name.
+ *
+ * @remarks
+ * For a single bond use {@link BondCalculationService}; for a flat list of
+ * bonds without aggregation use {@link BondsCalculationService}.
+ *
+ * @category Services
+ */
 export class PortfolioCalculationService {
+  /**
+   * Values a portfolio and returns a fully-populated copy.
+   *
+   * Never throws and never mutates `portfolio`. The base-currency conversion
+   * must succeed for the run to proceed; thereafter the aggregation fails
+   * outright only when *every* portfolio formula fails - if at least one
+   * succeeds the call returns success with the remaining failures recorded in
+   * {@link EngineSummary.failureReasons}. Bonds that already carry metrics are
+   * reused as-is; only the rest are recomputed.
+   *
+   * @param portfolio - The {@link Portfolio} to value. Read-only; left
+   *   unmodified.
+   * @param marketDataStore - Prices, curves, spreads and FX rates the per-bond
+   *   and portfolio formulas read from.
+   * @param options - Settlement/analysis dates and discount-rate and cash-flow
+   *   settings (see {@link BondFormulaOptions}); `settlementDate` also drives
+   *   the FX conversion.
+   * @returns A {@link Result} wrapping the
+   *   {@link PortfolioCalculationServiceReturn} (updated portfolio plus
+   *   per-bond and portfolio {@link EngineSummary}s), or a failure when
+   *   conversion fails or no portfolio formula could be computed.
+   */
   static async calculate(
     portfolio: Portfolio,
     marketDataStore: MarketDataStore,

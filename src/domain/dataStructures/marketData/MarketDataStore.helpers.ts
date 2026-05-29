@@ -7,6 +7,9 @@ const TENOR_TOLERANCE = 0.01; // years
 /**
  * Get yield curve from market data matching currency
  */
+/**
+ * @category Market Data
+ */
 export function getYieldCurve(
   marketData: MarketData,
   currency: Currency
@@ -31,6 +34,9 @@ export function getYieldCurve(
 /**
  * Interpolate yield curve to get rate at specific tenor
  * Uses linear interpolation between points
+ */
+/**
+ * @category Market Data
  */
 export function interpolateYieldCurve(
   curve: YieldCurve,
@@ -92,6 +98,9 @@ export function interpolateYieldCurve(
  * Get credit spread from market data matching rating and currency
  * Credit spread is simply a flat spread by rating (no tenor dimension)
  */
+/**
+ * @category Market Data
+ */
 export function getCreditSpread(
   marketData: MarketData,
   rating: CreditRating,
@@ -120,6 +129,9 @@ export function getCreditSpread(
 
 /**
  * Get internal rating spread from market data by rating ID
+ */
+/**
+ * @category Market Data
  */
 export function getInternalRatingSpread(
   marketData: MarketData,

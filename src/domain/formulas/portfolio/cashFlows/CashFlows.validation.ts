@@ -2,6 +2,7 @@ import { PortfolioCashFlowInput } from "./CashFlows.types";
 import { validatePositions } from "@domain/formulas";
 import { Result, ResultHelper } from "@domain/shared";
 
+/** @internal */
 export function validatePortfolioCashFlows(
   input: PortfolioCashFlowInput
 ): Result<undefined> {

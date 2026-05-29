@@ -1,3 +1,4 @@
+/** @internal */
 export function validateFrequency(frequency: number): string[] {
   const validFrequencies = [1, 2, 3, 4, 6, 12];
   if (!validFrequencies.includes(frequency)) {

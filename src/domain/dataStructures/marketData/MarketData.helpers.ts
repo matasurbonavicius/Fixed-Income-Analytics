@@ -6,6 +6,9 @@ import { Percentage } from "@domain/valueObjects";
 /**
  * Get market price as percentage of par (mid price if ask available, otherwise bid)
  */
+/**
+ * @category Market Data
+ */
  export function getMarketPrice(
     bond: Bond,
     marketData: MarketData,

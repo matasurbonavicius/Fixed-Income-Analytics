@@ -1,5 +1,6 @@
 import { Percentage } from "@domain/valueObjects";
 
+/** @internal */
 export function validateFixedRate(fixedRate: Percentage): string[] {
   const errors: string[] = [];
 

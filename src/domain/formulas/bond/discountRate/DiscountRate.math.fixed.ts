@@ -23,6 +23,8 @@ const SHORT_MATURITY_YEARS = 30 / 365;
  * Where:
  * - f(y) = calculated price at yield y - target price
  * - f'(y) = derivative of price with respect to yield
+ *
+ * @internal
  */
 export function calculateImpliedRateFixed(
   input: ImpliedRateFixedInput

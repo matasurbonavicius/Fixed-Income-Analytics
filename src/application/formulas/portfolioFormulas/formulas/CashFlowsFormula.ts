@@ -7,6 +7,8 @@ import * as formulasDomain from "@domain/formulas";
 /**
  * Calculate aggregated portfolio cash flows
  * Combines all bond cash flows by date across the portfolio
+ *
+ * @internal
  */
 export class PortfolioCashFlowsFormula extends PortfolioFormula<formulasDomain.PortfolioCashFlowSchedule> {
   constructor() {

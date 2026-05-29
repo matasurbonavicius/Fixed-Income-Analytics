@@ -1,5 +1,6 @@
 import { Percentage } from "@domain/valueObjects";
 
+/** @internal */
 export function validateDirtyPrice(dirtyPrice: Percentage): string[] {
   const errors: string[] = [];
 

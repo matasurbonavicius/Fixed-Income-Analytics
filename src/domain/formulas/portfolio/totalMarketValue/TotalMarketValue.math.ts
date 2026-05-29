@@ -5,6 +5,8 @@ import { Result, ResultHelper } from "@domain/shared";
 /**
  * Calculate total market value of portfolio
  * Sum of (quantity × clean price) for all positions
+ *
+ * @internal
  */
 export function calculateTotalMarketValue(
   input: TotalMarketValueInput

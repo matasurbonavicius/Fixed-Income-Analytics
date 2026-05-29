@@ -6,6 +6,7 @@ import * as PortfolioYieldDomain from "@domain/formulas";
 import { validatePortfolioDuration } from "@domain/formulas";
 import { PortfolioDurationResult } from "@domain/formulas";
 
+/** @internal */
 export class PortfolioDurationFormula extends PortfolioFormula<PortfolioDurationResult> {
   constructor() {
     super("portfolioDuration");

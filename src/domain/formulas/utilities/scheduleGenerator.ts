@@ -4,6 +4,9 @@ import { CalendarCode } from "@calendars";
 import { UTCDate } from "@domain/valueObjects";
 import { Result, ResultHelper } from "@domain/shared";
 
+/**
+ * @category Calendars & Day-Count
+ */
 export interface CouponPayment {
   paymentDate: UTCDate;
   periodStartDate: UTCDate;
@@ -11,6 +14,9 @@ export interface CouponPayment {
   isRegular: boolean;
 }
 
+/**
+ * @category Calendars & Day-Count
+ */
 export interface GenerateCouponScheduleInput {
   issueDate: UTCDate;
   maturityDate: UTCDate;
@@ -20,6 +26,9 @@ export interface GenerateCouponScheduleInput {
   calendar: CalendarCode;
 }
 
+/**
+ * @category Calendars & Day-Count
+ */
 export function generateCouponSchedule(
   input: GenerateCouponScheduleInput
 ): Result<CouponPayment[]> {
@@ -99,6 +108,9 @@ export function generateCouponSchedule(
   return ResultHelper.success(schedule);
 }
 
+/**
+ * @category Calendars & Day-Count
+ */
 export function getFutureCoupons(
   schedule: CouponPayment[],
   settlementDate: UTCDate
@@ -106,6 +118,9 @@ export function getFutureCoupons(
   return schedule.filter((coupon) => coupon.paymentDate.isAfter(settlementDate));
 }
 
+/**
+ * @category Calendars & Day-Count
+ */
 export function getLastCouponDate(
   schedule: CouponPayment[],
   settlementDate: UTCDate
@@ -118,6 +133,9 @@ export function getLastCouponDate(
     : pastCoupons[pastCoupons.length - 1].paymentDate;
 }
 
+/**
+ * @category Calendars & Day-Count
+ */
 export function getNextCouponDate(
   schedule: CouponPayment[],
   settlementDate: UTCDate
@@ -128,6 +146,9 @@ export function getNextCouponDate(
   return futureCoupons.length === 0 ? null : futureCoupons[0].paymentDate;
 }
 
+/**
+ * @category Calendars & Day-Count
+ */
 export function getCurrentCouponPeriod(
   schedule: CouponPayment[],
   settlementDate: UTCDate

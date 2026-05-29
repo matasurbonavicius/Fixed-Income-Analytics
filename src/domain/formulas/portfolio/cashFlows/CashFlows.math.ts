@@ -5,6 +5,8 @@ import * as types from "./CashFlows.types";
 /**
  * Calculate aggregated portfolio cash flows
  * Combines all bond cash flows by date, weighted by quantity
+ *
+ * @internal
  */
 export function calculatePortfolioCashFlows(
   input: types.PortfolioCashFlowInput

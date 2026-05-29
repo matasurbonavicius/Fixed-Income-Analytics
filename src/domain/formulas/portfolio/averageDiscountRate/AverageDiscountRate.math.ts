@@ -8,6 +8,8 @@ import { AverageDiscountRateInput } from "./AverageDiscountRate.types";
  *
  * Formula: Σ(discount_rate_i × weight_i)
  * where weight_i = market_value_i / Σ(market_value_i)
+ *
+ * @internal
  */
 export function calculateAverageDiscountRate(
   input: AverageDiscountRateInput

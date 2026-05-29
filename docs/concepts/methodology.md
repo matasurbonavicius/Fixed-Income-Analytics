@@ -8,7 +8,7 @@ All calculations are expressed in terms of a **settlement date** (when cash and 
 
 ## 1. Day-count conventions
 
-Every time-weighted quantity — accrued interest, discounting, duration — depends on how the fraction of a year between two dates is measured. The engine implements the conventions in [`utilities/dayCountConventions.ts`](https://github.com/matasurbonavicius/Bond-Analytics/blob/main/src/domain/formulas/utilities/dayCountConventions.ts):
+Every time-weighted quantity - accrued interest, discounting, duration - depends on how the fraction of a year between two dates is measured. The engine implements the conventions in [`utilities/dayCountConventions.ts`](https://github.com/matasurbonavicius/Bond-Analytics/blob/main/src/domain/formulas/utilities/dayCountConventions.ts):
 
 | Convention | Year fraction between `d1` and `d2` |
 |---|---|
@@ -37,7 +37,7 @@ AI = FaceValue × CouponRate × DCF(t₀, t_s)
 
 where `DCF` is the day-count fraction for the bond's convention. The engine reports both the money amount and the accrued-day count, and resets AI to zero on each coupon date.
 
-A **zero-coupon** bond never accrues — `AI = 0`, and its clean and dirty prices are identical. Both behaviours are asserted in [`pricing.test.ts`](https://github.com/matasurbonavicius/Bond-Analytics/blob/main/tests/domain/formulas/pricing.test.ts).
+A **zero-coupon** bond never accrues - `AI = 0`, and its clean and dirty prices are identical. Both behaviours are asserted in [`pricing.test.ts`](https://github.com/matasurbonavicius/Bond-Analytics/blob/main/tests/domain/formulas/pricing.test.ts).
 
 ---
 
@@ -79,17 +79,17 @@ discounted with annual compounding, consistent with how the zero-coupon yield is
 
 ---
 
-## 5. Discount rate (yield) — the waterfall
+## 5. Discount rate (yield) - the waterfall
 
 The "discount rate" used to value a bond is resolved through a configurable, ordered **waterfall** (`specifications/BondFormulaOptions`). The first method that can produce a rate wins:
 
-1. **`implied_from_price`** — invert the observed market price to recover yield-to-maturity.
-2. **`official_rating`** — risk-free curve + a credit spread looked up from the issuer's official rating.
-3. **`internal_rating`** — risk-free curve + a spread from an in-house rating mapping.
-4. **`manual_spread`** — risk-free curve + an analyst-supplied spread.
-5. **`manual_rate`** — an analyst-supplied absolute rate.
+1. **`implied_from_price`** - invert the observed market price to recover yield-to-maturity.
+2. **`official_rating`** - risk-free curve + a credit spread looked up from the issuer's official rating.
+3. **`internal_rating`** - risk-free curve + a spread from an in-house rating mapping.
+4. **`manual_spread`** - risk-free curve + an analyst-supplied spread.
+5. **`manual_rate`** - an analyst-supplied absolute rate.
 
-This mirrors how a desk actually arrives at a valuation rate: prefer a traded price, fall back progressively to model- and judgement-based inputs. All five paths are demonstrated in [`examples/`](../examples).
+This mirrors how a desk actually arrives at a valuation rate: prefer a traded price, fall back progressively to model- and judgement-based inputs. All five paths are demonstrated in the [Examples](/examples/).
 
 ### The implied-yield solver
 
@@ -107,26 +107,37 @@ with **Newton–Raphson** (the price/yield function is smooth and monotonic), co
 
 A scheduled date that falls on a weekend or holiday is rolled under one of:
 
-- **`FOLLOWING`** — next business day.
-- **`MODIFIED_FOLLOWING`** — next business day, unless it crosses into the next month, in which case roll *back* to the previous business day.
-- **`PRECEDING`** / **`MODIFIED_PRECEDING`** — the mirror images.
-- **`UNADJUSTED`** — leave the date as-is.
+- **`FOLLOWING`** - next business day.
+- **`MODIFIED_FOLLOWING`** - next business day, unless it crosses into the next month, in which case roll *back* to the previous business day.
+- **`PRECEDING`** / **`MODIFIED_PRECEDING`** - the mirror images.
+- **`UNADJUSTED`** - leave the date as-is.
 
-Business days are determined per **holiday calendar**. The calendars (NYSE, US Government Securities, SOFR, TARGET, LSE, EUREX, TSE, weekend-only) are generated from [QuantLib](https://www.quantlib.org/) by [`scripts/generate-calendars.py`](../scripts/generate-calendars.py) into a static JSON snapshot, so the engine itself needs no native dependency. Years outside the generated range fall back to weekend-only. Behaviour — including the month-boundary roll-back — is pinned in [`businessDay.test.ts`](https://github.com/matasurbonavicius/Bond-Analytics/blob/main/tests/domain/formulas/utilities/businessDay.test.ts).
+Business days are determined per **holiday calendar**. The calendars (NYSE, US Government Securities, SOFR, TARGET, LSE, EUREX, TSE, weekend-only) are generated from [QuantLib](https://www.quantlib.org/) by [`scripts/generate-calendars.py`](https://github.com/matasurbonavicius/Bond-Analytics/blob/main/scripts/generate-calendars.py) into a static JSON snapshot, so the engine itself needs no native dependency. Years outside the generated range fall back to weekend-only. Behaviour - including the month-boundary roll-back - is pinned in [`businessDay.test.ts`](https://github.com/matasurbonavicius/Bond-Analytics/blob/main/tests/domain/formulas/utilities/businessDay.test.ts).
 
 ---
 
-## 7. Duration
+## 7. Duration & convexity
 
-From the discounted cash flows the engine computes:
+From the same discounted cash flows the engine computes the first- and second-order price sensitivities together (one pass over the schedule):
 
-- **Macaulay duration** — the cash-flow-time-weighted average life:
+- **Macaulay duration** - the cash-flow-time-weighted average life:
   `D_mac = Σ_k ( t_k · PV_k ) / Σ_k PV_k`
-- **Modified duration** — price sensitivity to yield:
+- **Modified duration** - price sensitivity to yield:
   `D_mod = D_mac / (1 + y/f)`
-- **Dollar duration** — `D_mod × DirtyPrice × FaceValue / 100`, the money change in value per 100bp.
+- **Dollar duration** - `D_mod × DirtyPrice × FaceValue / 100`, the money change in value per 100bp.
+- **Convexity** - the curvature of the price/yield relationship, in years²:
+  `C = Σ_k ( n_k(n_k+1) · PV_k ) / ( Σ_k PV_k · (1 + y/f)² · f² )`, where `n_k = f · t_k`.
+- **Dollar convexity** - `C × DirtyPrice × FaceValue`, the money counterpart of the convexity term.
 
-For a zero-coupon bond Macaulay duration equals its time to maturity, which the test suite checks directly.
+Duration and convexity combine into the standard second-order estimate of a price move for a yield change `Δy`:
+
+```
+ΔP/P ≈ −D_mod · Δy + ½ · C · Δy²
+```
+
+The convexity term is always positive for an option-free bullet bond, so duration alone *understates* the price gain from a yield fall and *overstates* the loss from a yield rise; convexity corrects both.
+
+For a zero-coupon bond Macaulay duration equals its time to maturity and convexity reduces to `t(t + 1) / (1 + y)²` (a single cash flow, annual compounding). Both identities are checked directly in the test suite.
 
 ---
 
@@ -145,4 +156,4 @@ Multi-currency portfolios convert each position with the FX rate from the market
 
 ## A note on precision and reference values
 
-The golden-value tests pin engine output to Bloomberg figures for two real bonds. The fixed-rate bond matches to better than 0.001 of a price point and 3 decimals of yield. The zero-coupon implied yield lands ~0.3 bp from Bloomberg (2.5970% vs 2.5998%) — a documented sub-basis-point difference in zero-coupon yield convention, held to a 0.5 bp tolerance rather than masked by a loose bound.
+The golden-value tests pin engine output to Bloomberg figures for two real bonds. The fixed-rate bond matches to better than 0.001 of a price point and 3 decimals of yield. The zero-coupon implied yield lands ~0.3 bp from Bloomberg (2.5970% vs 2.5998%) - a documented sub-basis-point difference in zero-coupon yield convention, held to a 0.5 bp tolerance rather than masked by a loose bound.

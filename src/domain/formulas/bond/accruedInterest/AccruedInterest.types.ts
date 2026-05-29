@@ -1,6 +1,9 @@
 import { DayCountConvention } from "@domain/formulas";
 import { Money, Percentage, UTCDate } from "@domain/valueObjects";
 
+/**
+ * @category Results & Types
+ */
 export interface AccruedInterestFixedInput {
   faceValue: Money;
   fixedRate: Percentage;
@@ -11,6 +14,9 @@ export interface AccruedInterestFixedInput {
   dayCountConvention: DayCountConvention;
 }
 
+/**
+ * @category Results & Types
+ */
 export interface AccruedInterestResult {
   amountMoney: Money;
   amountPercent: Percentage;

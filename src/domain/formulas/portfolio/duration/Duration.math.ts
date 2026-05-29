@@ -8,6 +8,8 @@ import {
 /**
  * Calculate weighted average duration metrics for a portfolio
  * Weights based on market value (face value × clean price)
+ *
+ * @internal
  */
 export function calculatePortfolioDuration(
   input: PortfolioDurationInput

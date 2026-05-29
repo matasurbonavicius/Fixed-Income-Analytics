@@ -1,6 +1,7 @@
 import { Result } from "@domain/shared";
 import { CalculationEngine } from "@application/core";
 
+/** @internal */
 export abstract class PortfolioFormula<TResult = any> {
   constructor(
     public readonly id: string

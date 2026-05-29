@@ -8,6 +8,8 @@ import {
 /**
  * Calculate dirty price for fixed rate from discount rate
  * Present value of all future cash flows as percentage of par
+ *
+ * @internal
  */
 export function calculateDirtyPriceFixedFromYield(
   input: DirtyPriceFixedFromYieldInput

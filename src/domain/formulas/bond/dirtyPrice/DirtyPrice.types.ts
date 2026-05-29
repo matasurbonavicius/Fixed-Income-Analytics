@@ -2,6 +2,9 @@ import { Money, Currency, Percentage, UTCDate } from "@domain/valueObjects";
 import { DayCountConvention, CouponPayment } from "@domain/formulas";
 
 // ZERO
+/**
+ * @category Results & Types
+ */
 export interface DirtyPriceZeroFromYieldInput {
   faceValue: Money;
   currency: Currency;
@@ -13,6 +16,9 @@ export interface DirtyPriceZeroFromYieldInput {
 }
 
 // FIXED
+/**
+ * @category Results & Types
+ */
 export interface DirtyPriceFixedFromYieldInput {
   faceValue: Money;
   fixedRate: Percentage;

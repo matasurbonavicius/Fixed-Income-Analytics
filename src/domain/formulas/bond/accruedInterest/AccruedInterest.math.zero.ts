@@ -7,6 +7,8 @@ import { AccruedInterestResult } from "./AccruedInterest.types";
  *
  * Zero coupon bonds have no periodic interest payments,
  * so accrued interest is always zero.
+ *
+ * @internal
  */
 export function calculateAccruedInterestZero(
   currency: Currency,

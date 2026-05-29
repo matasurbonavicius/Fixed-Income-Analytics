@@ -5,6 +5,8 @@ import { CleanPriceFixedFromDirtyInput } from "./CleanPrice.types";
 /**
  * Calculate clean price for fixed rate from dirty price
  * Formula: Clean Price = Dirty Price - Accrued Interest
+ *
+ * @internal
  */
 export function calculateCleanPriceFixedFromDirty(
   input: CleanPriceFixedFromDirtyInput

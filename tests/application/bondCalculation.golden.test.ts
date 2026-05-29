@@ -39,6 +39,9 @@ describe("BondCalculationService — fixed-rate bond (LITHUN 3.5 07/03/31)", () 
     // Modified duration — Bloomberg quotes 3 dp.
     expect(m.duration!.modifiedDuration).toBeCloseTo(FIXED_GOLDEN.modifiedDuration, 2);
 
+    // Convexity is reported alongside duration and is positive for this bullet.
+    expect(m.duration!.convexity).toBeGreaterThan(0);
+
     // Implied yield from price.
     expect(m.discountRate!.discountRate.asPercent).toBeCloseTo(
       FIXED_GOLDEN.discountRatePercent,
@@ -82,7 +85,12 @@ describe("BondCalculationService — zero-coupon bond (LITHGB 0 03/03/28)", () =
     );
     const m = updatedBond.props.metrics!;
     // Settlement 2026-01-20 → maturity 2028-03-03 ≈ 2.12 years.
-    expect(m.duration!.macaulayDuration).toBeGreaterThan(2.0);
-    expect(m.duration!.macaulayDuration).toBeLessThan(2.2);
+    const t = m.duration!.macaulayDuration;
+    expect(t).toBeGreaterThan(2.0);
+    expect(t).toBeLessThan(2.2);
+
+    // A zero's convexity is the closed form t(t + 1) / (1 + y)^2.
+    const y = m.discountRate!.discountRate.asDecimal;
+    expect(m.duration!.convexity).toBeCloseTo((t * (t + 1)) / (1 + y) ** 2, 8);
   });
 });

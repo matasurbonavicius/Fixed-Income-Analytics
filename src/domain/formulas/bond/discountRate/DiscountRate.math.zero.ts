@@ -23,6 +23,7 @@ import { ImpliedRateZeroInput } from "./DiscountRate.types";
 // return so downstream consumers (duration, validators) get a sane value.
 const SHORT_MATURITY_YEARS = 30 / 365;
 
+/** @internal */
 export function calculateImpliedRateZero(
   input: ImpliedRateZeroInput
 ): Result<Percentage> {

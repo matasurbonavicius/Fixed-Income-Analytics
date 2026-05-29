@@ -14,6 +14,8 @@ import { getMarketPrice } from "@domain/dataStructures";
  * 3. internal_rating - Internal rating spread + yield curve
  * 4. manual_spread - Manual spread + yield curve
  * 5. manual_rate - Direct discount rate input
+ *
+ * @internal
  */
 export class DiscountRateFormula extends BondFormula<formulas.DiscountRateResult> {
   constructor() {

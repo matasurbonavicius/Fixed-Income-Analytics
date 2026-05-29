@@ -66,6 +66,9 @@
   "engines": {
     "node": ">=18"
   },
+  "overrides": {
+    "esbuild": "~0.25.0"
+  },
   "devDependencies": {
     "@eslint/js": "^9.39.4",
     "@types/node": "^22.0.0",

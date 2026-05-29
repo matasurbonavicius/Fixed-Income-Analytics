@@ -22,8 +22,17 @@ import {
  * Dollar_D = D_mod × Market Value
  * where Market Value = Face Value × Clean Price (as %)
  *
+ * Convexity (in years²), the second-order price sensitivity:
+ * C = Σ( n_i(n_i+1) × PV_i ) / ( P × (1 + y/f)² × f² )
+ * where n_i = f × t_i is the number of periods to cash flow i and P = Σ PV_i.
+ *
+ * Dollar Convexity:
+ * Dollar_C = C × Market Value
+ *
  * @param input - Fixed rate bond parameters
- * @returns Result containing all three duration metrics
+ * @returns Result containing the duration and convexity metrics
+ *
+ * @internal
  */
 export function calculateDurationFixed(
   input: MacaulayDurationFixedInput
@@ -46,6 +55,7 @@ export function calculateDurationFixed(
 
   let weightedTime = 0;
   let totalPV = 0;
+  let weightedPeriods = 0; // Σ n(n+1)·PV, the convexity numerator
 
   // Calculate PV and weighted time for each coupon payment (as % of par)
   for (const coupon of input.futureCoupons) {
@@ -56,15 +66,16 @@ export function calculateDurationFixed(
     );
 
     const numPeriods = compoundingFrequency * timeToPayment;
-    
+
     // PV factor = 1 / (1 + r)^n
     const discountFactor = Math.pow(1 + periodicRate.asDecimal, numPeriods);
     const pvFactor = 1 / discountFactor;
-    
+
     // PV of this coupon (as % of par)
     const pv = couponPaymentRate.asDecimal * pvFactor;
-    
+
     weightedTime += timeToPayment * pv;
+    weightedPeriods += numPeriods * (numPeriods + 1) * pv;
     totalPV += pv;
   }
 
@@ -78,8 +89,9 @@ export function calculateDurationFixed(
   const maturityPeriods = compoundingFrequency * timeToMaturity;
   const maturityDiscountFactor = Math.pow(1 + periodicRate.asDecimal, maturityPeriods);
   const principalPV = 1 / maturityDiscountFactor; // Principal is 100% = 1.0
-  
+
   weightedTime += timeToMaturity * principalPV;
+  weightedPeriods += maturityPeriods * (maturityPeriods + 1) * principalPV;
   totalPV += principalPV;
 
   // Macaulay Duration = Weighted Average Time
@@ -90,8 +102,17 @@ export function calculateDurationFixed(
   const macaulayDuration = weightedTime / totalPV;
 
   // Modified Duration = Macaulay Duration / (1 + yield/frequency)
-  const modifiedDuration =
-    macaulayDuration / (1 + input.yield.asDecimal / compoundingFrequency);
+  const onePlusPeriodicRate = 1 + periodicRate.asDecimal;
+  const modifiedDuration = macaulayDuration / onePlusPeriodicRate;
+
+  // Convexity = Σ n(n+1)·PV / ( P × (1 + y/f)² × f² )
+  const convexity =
+    weightedPeriods /
+    (totalPV *
+      onePlusPeriodicRate *
+      onePlusPeriodicRate *
+      compoundingFrequency *
+      compoundingFrequency);
 
   // Calculate Market Value = Face Value × Clean Price (as %)
   const marketValueResult = input.faceValue.multiplyByPercentage(input.cleanPrice);
@@ -105,9 +126,17 @@ export function calculateDurationFixed(
     return dollarDurationResult;
   }
 
+  // Dollar Convexity = Convexity × Market Value
+  const dollarConvexityResult = marketValueResult.value.multiply(convexity);
+  if (!dollarConvexityResult.success) {
+    return dollarConvexityResult;
+  }
+
   return ResultHelper.success<DurationResult>({
     macaulayDuration,
     modifiedDuration,
     dollarDuration: dollarDurationResult.value,
+    convexity,
+    dollarConvexity: dollarConvexityResult.value,
   });
 }

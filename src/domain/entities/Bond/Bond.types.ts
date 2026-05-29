@@ -16,24 +16,24 @@ import {
 import { BondMetrics } from "./Bond.metrics";
 import { CalendarCode } from "@calendars";
 import { DayCountConvention } from "@domain/formulas";
-import { LocalizedTags, LocalizedInput } from "@domain/i18n";
 
-// News link for bond-related articles. `title` is localized — same article
-// can have an English headline and a Lithuanian one (or only one of them).
-// LocalizedInput accepts both plain strings (legacy / single-language) and
-// LocalizedString maps; consumers resolve via pickLocale.
+// News link for bond-related articles.
+/**
+ * @internal
+ */
 export interface NewsLink {
   url: string;
-  title?: LocalizedInput;
+  title?: string;
   addedAt: UTCDate;
 }
 
-// Issuer details. Free-text fields are localized; structured fields
-// (email, phone, website) are language-neutral. `address` is localized too
-// — postal addresses translate (e.g. "Vilnius, Lithuania" vs "Vilnius, Lietuva").
+// Issuer details.
+/**
+ * @internal
+ */
 export interface IssuerDetails {
-  description?: LocalizedInput;
-  address?: LocalizedInput;
+  description?: string;
+  address?: string;
   email?: string;
   phone?: string;
   website?: string;
@@ -44,15 +44,13 @@ interface BaseBondProps {
   id: BondId;
 
   // === BASIC INFO ===
-  // Display text — admins fill per language; UI resolves via pickLocale.
-  // Calculation engine never reads these fields. Accepts either a plain
-  // string (legacy / single-language consumers) or a LocalizedString map.
-  name: LocalizedInput;
-  description?: LocalizedInput;
+  // Display text. The calculation engine never reads these fields.
+  name: string;
+  description?: string;
 
   // === ISSUER INFO ===
   issueDate: UTCDate; // Required. No good way to know otherwise
-  issuer?: LocalizedInput; // Company display name (issuer codes use issuerCountry / issuerSector)
+  issuer?: string; // Company display name (issuer codes use issuerCountry / issuerSector)
   issuerCountry?: CountryCode;
 
   // === CATEGORIZATION ===
@@ -85,12 +83,7 @@ interface BaseBondProps {
   issuerDetails?: IssuerDetails;
 
   // === TAGS ===
-  // Localized tag bucket — neutral tags display in every language, prefixed
-  // entries (e.g. "lt:bankas") display only when that language is active.
-  // See domain/i18n/LocalizedTags.ts for the storage convention.
-  // Accepts the raw `text[]` array too so legacy code and demos can keep
-  // passing string lists; pickTagsForLocale / flattenAllTags normalize both.
-  tags?: LocalizedTags | readonly string[];
+  tags?: readonly string[];
 
   // === VALUATION OVERRIDES ===
   internalRatingId?: string;         // UUID of internal rating
@@ -103,6 +96,9 @@ interface BaseBondProps {
 }
 
 // ============= FIXED RATE BOND =============
+/**
+ * @category Bond Types & Shapes
+ */
 export interface FixedRateBondProps extends BaseBondProps {
   bondType: "FIXED";
   fixedRate: Percentage;  // Required for fixed rate bonds
@@ -111,10 +107,16 @@ export interface FixedRateBondProps extends BaseBondProps {
 }
 
 // ============= ZERO COUPON BOND =============
+/**
+ * @category Bond Types & Shapes
+ */
 export interface ZeroCouponBondProps extends BaseBondProps {
   bondType: "ZERO";
   frequency: 0; // Always 0 for zero coupon
 }
 
 // ============= DISCRIMINATED UNION =============
+/**
+ * @category Bond Types & Shapes
+ */
 export type BondProps = FixedRateBondProps | ZeroCouponBondProps;

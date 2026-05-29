@@ -5,6 +5,8 @@ import { CleanPriceZeroFromDirtyInput } from "./CleanPrice.types";
 /**
  * Calculate clean price for zero coupon from dirty price
  * For zero coupon: clean price = dirty price (no accrued interest)
+ *
+ * @internal
  */
 export function calculateCleanPriceZeroFromDirty(
   input: CleanPriceZeroFromDirtyInput

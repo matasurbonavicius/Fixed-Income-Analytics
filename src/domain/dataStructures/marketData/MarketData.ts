@@ -7,6 +7,9 @@ import {
   BondId,
 } from "@domain/valueObjects";
 
+/**
+ * @category Market Data
+ */
 export interface YieldCurve {
   currency: Currency;
   points: Array<{
@@ -15,17 +18,26 @@ export interface YieldCurve {
   }>;
 }
 
+/**
+ * @category Market Data
+ */
 export interface CreditSpreadData {
   rating: CreditRating;
   currency: Currency;
   spread: number; // decimal (e.g., 0.001 = 10bps)
 }
 
+/**
+ * @category Market Data
+ */
 export interface FXRate {
   pair: CurrencyPair;
   rate: number;
 }
 
+/**
+ * @category Market Data
+ */
 export interface CleanBondPrice {
   bondId: BondId;
   priceType: "clean";
@@ -33,6 +45,9 @@ export interface CleanBondPrice {
   ask?: Percentage;
 }
 
+/**
+ * @category Market Data
+ */
 export interface DirtyBondPrice {
   bondId: BondId;
   priceType: "dirty";
@@ -40,8 +55,14 @@ export interface DirtyBondPrice {
   ask?: Percentage;
 }
 
+/**
+ * @category Market Data
+ */
 export type BondPrice = CleanBondPrice | DirtyBondPrice;
 
+/**
+ * @category Market Data
+ */
 export interface InternalRatingSpread {
   id: string; // UUID matching bond.internalRatingId
   name: string; // "BBB-equivalent", "High Risk", etc.
@@ -49,6 +70,9 @@ export interface InternalRatingSpread {
 }
 
 // One MarketData point refers to all Market Data for a single point in time
+/**
+ * @category Market Data
+ */
 export interface MarketData {
   asOfDate: UTCDate;
 

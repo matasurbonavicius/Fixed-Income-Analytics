@@ -2,6 +2,7 @@ import { CashFlowFixedInput } from "./CashFlows.types";
 import { Result, ResultHelper } from "@domain/shared";
 import { validateFaceValue, validateFixedRate, validateFrequency } from "@domain/formulas";
 
+/** @internal */
 export function validateCashFlowFixed(
   input: CashFlowFixedInput
 ): Result<undefined> {

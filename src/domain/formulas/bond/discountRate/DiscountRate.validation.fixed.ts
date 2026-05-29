@@ -6,6 +6,7 @@ import {
   validateMarketPrice,
 } from "@domain/formulas";
 
+/** @internal */
 export function validateImpliedRateFixed(
   input: ImpliedRateFixedInput
 ): Result<undefined> {

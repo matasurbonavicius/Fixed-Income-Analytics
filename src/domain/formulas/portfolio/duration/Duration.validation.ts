@@ -2,6 +2,7 @@ import { PortfolioDurationInput } from "./Duration.types";
 import { validatePositions } from "@domain/formulas";
 import { Result, ResultHelper } from "@domain/shared";
 
+/** @internal */
 export function validatePortfolioDuration(
   input: PortfolioDurationInput
 ): Result<undefined> {

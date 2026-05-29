@@ -2,11 +2,17 @@ import { Bond } from "@domain/entities";
 import { Currency, Money, Percentage, UTCDate } from "@domain/valueObjects";
 import { PortfolioCashFlowSchedule, PortfolioDurationResult } from "@domain/formulas";
 
+/**
+ * @category Portfolio Types & Shapes
+ */
 export interface PortfolioPosition {
   bond: Bond;
   quantity: number;
 }
 
+/**
+ * @category Portfolio Types & Shapes
+ */
 export interface PortfolioMetrics {
   portfolioId: string;
   calculationDate: UTCDate;
@@ -24,6 +30,9 @@ export interface PortfolioMetrics {
 }
 
 // ============= MAIN PORTFOLIO PROPS =============
+/**
+ * @category Portfolio Types & Shapes
+ */
 export interface PortfolioProps {
   id: string;
   name: string;

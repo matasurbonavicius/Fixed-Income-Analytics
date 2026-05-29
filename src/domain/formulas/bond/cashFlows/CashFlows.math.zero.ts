@@ -6,6 +6,7 @@ import {
 } from "./CashFlows.types";
 import { Money } from "@domain/valueObjects";
 
+/** @internal */
 export function generateCashFlowsZero(
   input: CashFlowZeroInput
 ): Result<CashFlowSchedule> {

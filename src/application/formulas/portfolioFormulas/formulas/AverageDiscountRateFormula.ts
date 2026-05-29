@@ -12,10 +12,12 @@ import { Percentage } from "@domain/valueObjects";
  * Calculate weighted average discount rate of portfolio
  * DiscountRate_portfolio = Σ(DiscountRate_i × Weight_i)
  * Where Weight_i = MarketValue_i / TotalMarketValue
+ *
+ * @internal
  */
 export class AverageDiscountRateFormula extends PortfolioFormula<Percentage> {
   constructor() {
-    // ID must match the PortfolioMetrics field name — buildMetrics writes results
+    // ID must match the PortfolioMetrics field name - buildMetrics writes results
     // into metrics[formulaId], and the DTO mapper reads metrics.portfolioDiscountRate.
     super("portfolioDiscountRate");
   }

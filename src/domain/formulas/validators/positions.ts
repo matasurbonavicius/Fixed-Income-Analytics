@@ -1,6 +1,7 @@
 import { PortfolioPosition } from "@domain/entities";
 import { Currency } from "@domain/valueObjects";
 
+/** @internal */
 export function validatePositions(
   positions: PortfolioPosition[],
   baseCurrency: Currency

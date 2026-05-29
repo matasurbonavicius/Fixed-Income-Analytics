@@ -8,6 +8,8 @@ import {
 /**
  * Calculate dirty price for zero coupon from discount rate
  * Formula: Price (as % of par) = 1 / (1 + r/f)^(f*t)
+ *
+ * @internal
  */
 export function calculateDirtyPriceZeroFromYield(
   input: DirtyPriceZeroFromYieldInput

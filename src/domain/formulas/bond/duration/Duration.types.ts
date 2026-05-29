@@ -5,6 +5,9 @@ import { Money, Currency, Percentage, UTCDate } from "@domain/valueObjects";
 /**
  * Input for calculating Macaulay Duration for fixed rate bonds
  */
+/**
+ * @category Results & Types
+ */
 export interface MacaulayDurationFixedInput {
   faceValue: Money;
   fixedRate: Percentage;
@@ -22,6 +25,9 @@ export interface MacaulayDurationFixedInput {
 /**
  * Input for calculating Macaulay Duration for zero coupon bonds
  */
+/**
+ * @category Results & Types
+ */
 export interface MacaulayDurationZeroInput {
   analyticalCurrency: Currency,
   faceValue: Money;
@@ -34,11 +40,16 @@ export interface MacaulayDurationZeroInput {
 }
 
 /**
- * Result containing all three duration metrics
+ * Result containing the duration and convexity metrics
+ */
+/**
+ * @category Results & Types
  */
 export interface DurationResult {
   macaulayDuration: number; // in years
   modifiedDuration: number; // price sensitivity
   dollarDuration: Money; // dollar change for 1% yield change
+  convexity: number; // second-order price sensitivity, in years²
+  dollarConvexity: Money; // money change from the convexity term per 100bp²
 }
 

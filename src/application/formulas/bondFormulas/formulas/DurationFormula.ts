@@ -10,6 +10,8 @@ import * as formulas from "@domain/formulas";
  * - Macaulay Duration: Weighted average time to receive cash flows (in years)
  * - Modified Duration: Price sensitivity to yield changes
  * - Dollar Duration: Dollar change in price for 1% yield change
+ *
+ * @internal
  */
 export class DurationFormula extends BondFormula<formulas.DurationResult> {
   constructor() {

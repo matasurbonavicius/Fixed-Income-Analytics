@@ -1,5 +1,6 @@
 import { Money } from "@domain/valueObjects";
 
+/** @internal */
 export function validateCleanPrice(cleanPrice: Money): string[] {
   const errors: string[] = [];
 

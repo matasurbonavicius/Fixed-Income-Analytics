@@ -1,5 +1,11 @@
+/**
+ * @category Bond Types & Shapes
+ */
 export type BondType = "FIXED" | "ZERO";
 
+/**
+ * @category Bond Types & Shapes
+ */
 export type BondCategory =
   | "SOVEREIGN"        // Government bonds (Treasuries, Gilts, Bunds)
   | "CORPORATE"        // Corporate bonds
@@ -12,6 +18,9 @@ export type BondCategory =
   | "CONVERTIBLE";     // Convertible bonds
 
 // What sector is the issuer in? (mostly for corporates)
+/**
+ * @category Bond Types & Shapes
+ */
 export type IssuerSector =
   | "GOVERNMENT"
   | "FINANCIALS"
@@ -26,6 +35,9 @@ export type IssuerSector =
   | "REAL_ESTATE"
   | "TELECOM";
 
+/**
+ * @category Calendars & Day-Count
+ */
 export type BusinessDayConvention =
   | "FOLLOWING"
   | "MODIFIED_FOLLOWING"
@@ -33,6 +45,9 @@ export type BusinessDayConvention =
   | "MODIFIED_PRECEDING"
   | "UNADJUSTED";
   
+/**
+ * @category Formula Registry
+ */
 export const DISCOUNT_RATE_METHODS = [
   "implied_from_price",
   "official_rating",
@@ -41,8 +56,14 @@ export const DISCOUNT_RATE_METHODS = [
   "manual_rate"
 ] as const;
 
+/**
+ * @category Formula Registry
+ */
 export type DiscountRateMethod = typeof DISCOUNT_RATE_METHODS[number];
 
+/**
+ * @category Bond Types & Shapes
+ */
 export type CountryCode =
   // === MAJOR MARKETS ===
   | "US"  // United States

@@ -9,6 +9,8 @@ import { validatePortfolioTotalMarketValue } from "@domain/formulas";
 /**
  * Calculate total market value of portfolio
  * TotalMarketValue = Σ(quantity_i × cleanPrice_i)
+ *
+ * @internal
  */
 export class TotalMarketValueFormula extends PortfolioFormula<Money> {
   constructor() {

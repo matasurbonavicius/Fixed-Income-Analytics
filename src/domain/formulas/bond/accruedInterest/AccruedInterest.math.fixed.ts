@@ -5,6 +5,7 @@ import {
 } from "./AccruedInterest.types";
 import { Result, ResultHelper } from "@domain/shared";
 
+/** @internal */
 export function calculateAccruedInterestFixed(
   input: AccruedInterestFixedInput
 ): Result<AccruedInterestResult> {

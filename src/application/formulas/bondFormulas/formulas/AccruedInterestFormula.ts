@@ -5,6 +5,7 @@ import * as formulas from "@domain/formulas";
 import * as entities from "@domain/entities";
 import * as objects from "@domain/valueObjects";
 
+/** @internal */
 export class AccruedInterestFormula extends BondFormula<formulas.AccruedInterestResult> {
   constructor() {super("accruedInterest")}
 

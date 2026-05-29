@@ -17,7 +17,7 @@ import {
   Currency, Money, Percentage, BondId, CreditRating, UTCDate,
 } from "bond-analytics";
 
-// every factory returns a Result<T> — no thrown exceptions
+// every factory returns a Result<T> - no thrown exceptions
 const must = <T>(r: { success: true; value: T } | { success: false; error: string }): T => {
   if (!r.success) throw new Error(r.error);
   return r.value;
@@ -89,7 +89,8 @@ so error paths are visible in the types. The `must` helper above is the terse wa
 
 ## Next steps
 
-- [Methodology](./methodology) — the financial math behind every metric.
-- [Architecture](./architecture) — how the engine is structured.
-- [Examples](./examples) — ten runnable end-to-end scenarios.
-- [API Reference](/api/) — every exported type and function.
+- [Methodology](/concepts/methodology) - the financial math behind every metric.
+- [Architecture](/concepts/architecture) - how the engine is structured.
+- [Design decisions](/concepts/design-decisions) - why it's built the way it is.
+- [Examples](/examples/) - ten runnable end-to-end scenarios.
+- [API Reference](/api/) - every exported type and function.

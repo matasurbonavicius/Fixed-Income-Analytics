@@ -5,6 +5,7 @@ import { Money, Percentage, UTCDate } from "@domain/valueObjects";
 import * as entities from "@domain/entities";
 import * as formulas from "@domain/formulas";
 
+/** @internal */
 export class CashFlowsFormula extends BondFormula<formulas.CashFlowSchedule> {
   constructor() {
     super("cashFlows");

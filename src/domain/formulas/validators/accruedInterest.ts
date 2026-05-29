@@ -1,5 +1,6 @@
 import { AccruedInterestResult } from "../bond";
 
+/** @internal */
 export function validateAccruedInterest(accruedInterest: AccruedInterestResult): string[] {
   const errors: string[] = [];
 

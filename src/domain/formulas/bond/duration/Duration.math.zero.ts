@@ -5,13 +5,17 @@ import { MacaulayDurationZeroInput, DurationResult } from "./Duration.types";
 /**
  * Calculate all duration metrics for a zero-coupon bond
  *
- * For zero-coupon bonds:
+ * For zero-coupon bonds (single cash flow, annual compounding):
  * - Macaulay Duration = Time to Maturity (only one cash flow)
  * - Modified Duration = Macaulay Duration / (1 + yield)
  * - Dollar Duration = Modified Duration × Market Value
+ * - Convexity = t(t + 1) / (1 + yield)²
+ * - Dollar Convexity = Convexity × Market Value
  *
  * @param input - Zero coupon bond parameters
- * @returns Result containing all three duration metrics
+ * @returns Result containing the duration and convexity metrics
+ *
+ * @internal
  */
 export function calculateDurationZero(
   input: MacaulayDurationZeroInput
@@ -26,8 +30,12 @@ export function calculateDurationZero(
   const macaulayDuration = yearsToMaturity;
 
   // Modified Duration = Macaulay Duration / (1 + yield)
-  const modifiedDuration =
-    macaulayDuration / (1 + input.discountRate.asDecimal);
+  const onePlusYield = 1 + input.discountRate.asDecimal;
+  const modifiedDuration = macaulayDuration / onePlusYield;
+
+  // Convexity = t(t + 1) / (1 + yield)²
+  const convexity =
+    (yearsToMaturity * (yearsToMaturity + 1)) / (onePlusYield * onePlusYield);
 
   // Calculate Market Value = Face Value × Clean Price (as %)
   const marketValueResult = input.faceValue.multiplyByPercentage(input.cleanPrice);
@@ -41,9 +49,17 @@ export function calculateDurationZero(
     return dollarDurationResult;
   }
 
+  // Dollar Convexity = Convexity × Market Value
+  const dollarConvexityResult = marketValueResult.value.multiply(convexity);
+  if (!dollarConvexityResult.success) {
+    return dollarConvexityResult;
+  }
+
   return ResultHelper.success<DurationResult>({
     macaulayDuration,
     modifiedDuration,
     dollarDuration: dollarDurationResult.value,
+    convexity,
+    dollarConvexity: dollarConvexityResult.value,
   });
 }

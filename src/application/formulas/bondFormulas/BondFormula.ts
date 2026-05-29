@@ -10,6 +10,8 @@ import { UTCDate } from "@domain/valueObjects";
  * Abstract base class for all formulas
  * Provides contract and common utilities
  * Each formula implements its own orchestration in execute()
+ *
+ * @internal
  */
 export abstract class BondFormula<TResult = any> {
   constructor(

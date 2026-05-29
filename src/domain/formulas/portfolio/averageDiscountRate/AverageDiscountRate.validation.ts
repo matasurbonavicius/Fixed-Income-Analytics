@@ -4,6 +4,8 @@ import { Result, ResultHelper } from "@domain/shared";
 
 /**
  * Validate portfolio has bonds with discount rates for averaging
+ *
+ * @internal
  */
 export function validatePortfolioAverageDiscountRate(
   input: AverageDiscountRateInput
