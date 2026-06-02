@@ -64,6 +64,54 @@ describe("DiscountCurve — construction", () => {
   });
 });
 
+describe("DiscountCurve — fromDiscountFactors", () => {
+  it("round-trips DF -> curve -> DF at the pillars", () => {
+    const dfs = [
+      { tenor: 1, df: 1 / 1.03 },
+      { tenor: 5, df: 1 / Math.pow(1.035, 5) },
+      { tenor: 10, df: 1 / Math.pow(1.04, 10) },
+    ];
+    const curve = unwrap(DiscountCurve.fromDiscountFactors(dfs));
+    for (const { tenor, df } of dfs) {
+      expect(unwrap(curve.discountFactor(tenor))).toBeCloseTo(df, 12);
+    }
+  });
+
+  it("agrees with fromZeroRates built from the equivalent rates", () => {
+    const fromDF = unwrap(
+      DiscountCurve.fromDiscountFactors([
+        { tenor: 1, df: 1 / 1.03 },
+        { tenor: 5, df: 1 / Math.pow(1.035, 5) },
+      ])
+    );
+    const fromZero = unwrap(
+      DiscountCurve.fromZeroRates([
+        { tenor: 1, rate: pct(0.03) },
+        { tenor: 5, rate: pct(0.035) },
+      ])
+    );
+    for (const t of [0.5, 1, 3, 5, 8]) {
+      expect(unwrap(fromDF.discountFactor(t))).toBeCloseTo(
+        unwrap(fromZero.discountFactor(t)),
+        12
+      );
+    }
+  });
+
+  it("rejects a non-positive discount factor", () => {
+    expect(
+      DiscountCurve.fromDiscountFactors([{ tenor: 1, df: 0 }]).success
+    ).toBe(false);
+    expect(
+      DiscountCurve.fromDiscountFactors([{ tenor: 1, df: -0.5 }]).success
+    ).toBe(false);
+  });
+
+  it("rejects an empty point set", () => {
+    expect(DiscountCurve.fromDiscountFactors([]).success).toBe(false);
+  });
+});
+
 describe("DiscountCurve — identities", () => {
   it("DF(0) = 1 exactly", () => {
     expect(unwrap(sampleCurve().discountFactor(0))).toBe(1);

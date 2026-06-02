@@ -127,6 +127,61 @@ export class DiscountCurve {
     return ResultHelper.success(new DiscountCurve(sorted, interpolation));
   }
 
+  /**
+   * Builds a {@link DiscountCurve} from observed discount factors `DF(t)`.
+   *
+   * Each pillar's discount factor is converted to the equivalent discrete
+   * annual zero rate `z = DF^(-1/t) - 1`, after which the curve behaves
+   * identically to one built via {@link fromZeroRates} - same interpolation,
+   * same queries. This is the natural constructor for the output of a bootstrap,
+   * whose every solved pillar is a discount factor.
+   *
+   * Validates that there is at least one pillar, that every tenor is finite and
+   * strictly positive, that every discount factor is finite and strictly
+   * positive (a non-positive `DF` has no real zero rate), and that the tenors
+   * are distinct. The pillars are sorted by tenor before being stored, so
+   * callers need not pre-sort.
+   *
+   * @param points - The discount-factor pillars: a tenor in years (`> 0`) and a
+   *   discount factor (`> 0`) for each.
+   * @param options - Optional interpolation method; defaults to
+   *   {@link CurveInterpolation.LOG_LINEAR_DF}.
+   * @returns A successful {@link Result} with the curve, or a failure describing
+   *   the first validation problem. Never throws.
+   */
+  static fromDiscountFactors(
+    points: Array<{ tenor: number; df: number }>,
+    options?: { interpolation?: CurveInterpolation }
+  ): Result<DiscountCurve> {
+    if (points.length === 0) {
+      return ResultHelper.failure("Discount curve requires at least one point");
+    }
+
+    const zeroPoints: Array<{ tenor: number; rate: Percentage }> = [];
+    for (const p of points) {
+      if (!Number.isFinite(p.tenor) || p.tenor <= 0) {
+        return ResultHelper.failure(
+          `Curve tenor must be finite and positive, got ${p.tenor}`
+        );
+      }
+      if (!Number.isFinite(p.df) || p.df <= 0) {
+        return ResultHelper.failure(
+          `Discount factor must be finite and positive, got ${p.df}`
+        );
+      }
+      // z such that 1/(1+z)^t = df  =>  z = df^(-1/t) - 1.
+      const rateResult = Percentage.fromDecimal(
+        Math.pow(p.df, -1 / p.tenor) - 1
+      );
+      if (!rateResult.success) {
+        return rateResult;
+      }
+      zeroPoints.push({ tenor: p.tenor, rate: rateResult.value });
+    }
+
+    return DiscountCurve.fromZeroRates(zeroPoints, options);
+  }
+
   /** The interpolation method this curve uses, recorded for audit. */
   get interpolation(): CurveInterpolation {
     return this._interpolation;

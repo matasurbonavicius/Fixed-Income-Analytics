@@ -187,7 +187,16 @@ Two simpler curve-relative measures accompany the Z-spread:
 
 Where the Z-spread weighs the whole cash-flow profile against the whole curve, I/G-spreads compare a single yield to a single curve point at the bond's life - cheaper to read, coarser as a measure.
 
-**Out of scope** (deliberately, to stay lean): OAS / callable pricing (needs a stochastic rate model), multi-curve OIS-discounting, and spline / monotone-convex interpolation.
+### Bootstrapping the curve
+
+Callers who hold *par quotes* rather than zero rates can build the curve from instruments via `bootstrapCurve`. It processes the instruments in increasing tenor, solving each pillar's discount factor against the curve already built from all shorter pillars:
+
+- A **`ZERO_RATE`** pillar (a deposit / front-end quote) contributes its discount factor `1 / (1 + z)^t` directly.
+- A **`PAR_BOND`** is quoted at par, so `1 = c·Σ_i DF(t_i) + (1+c)·DF(T)`. Every coupon before maturity lands on an already-solved pillar, leaving the maturity discount factor as the only unknown - which falls out linearly, `DF(T) = (1 − c·Σ_{i<n} DF(t_i)) / (1 + c)`, with no root-finder needed.
+
+The result is assembled with `DiscountCurve.fromDiscountFactors`, so it interpolates and extrapolates exactly like any other curve. The self-consistency guarantee is the strongest possible one: pricing each input par bond off the bootstrapped curve recovers par to ~1e-12, pinned in [`bootstrap.test.ts`](https://github.com/matasurbonavicius/Bond-Analytics/blob/main/tests/domain/formulas/bootstrap.test.ts).
+
+**Out of scope** (deliberately, to stay lean): OAS / callable pricing (needs a stochastic rate model), multi-curve OIS-discounting, spline / monotone-convex interpolation, and multi-instrument (deposit + futures + swap) bootstrap conventions.
 
 ---
 
