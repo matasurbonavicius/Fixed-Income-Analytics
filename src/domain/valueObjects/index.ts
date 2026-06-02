@@ -5,3 +5,4 @@ export * from "./CreditRating";
 export * from "./BondId";
 export * from "./UTCDate";
 export * from "./CurrencyPair";
+export * from "./DiscountCurve";

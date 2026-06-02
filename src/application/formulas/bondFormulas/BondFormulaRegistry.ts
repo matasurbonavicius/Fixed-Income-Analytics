@@ -5,17 +5,19 @@ import { CleanPriceFormula } from "./formulas";
 import { DirtyPriceFormula } from "./formulas";
 import { DurationFormula } from "./formulas";
 import { DiscountRateFormula } from "./formulas";
+import { SpreadsFormula } from "./formulas";
 
 /**
  * @category Formula Registry
  */
 export const ALL_BOND_FORMULAS: BondFormula[] = [
-  new DiscountRateFormula(),  
+  new DiscountRateFormula(),
   new AccruedInterestFormula(),
   new CashFlowsFormula(),
-  new CleanPriceFormula(),    
+  new CleanPriceFormula(),
   new DirtyPriceFormula(),
   new DurationFormula(),
+  new SpreadsFormula(),
 ];
 
 /**

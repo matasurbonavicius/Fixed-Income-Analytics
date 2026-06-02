@@ -5,6 +5,19 @@ import {
 import {UTCDate} from "@domain/valueObjects";
 
 /**
+ * How the engine discounts cash flows to a price.
+ *
+ * - `flat_yield` (default) - discount every flow at one flat periodic rate
+ *   `y/f`. The original, golden-pinned behaviour.
+ * - `curve` - discount each flow `k` at the supplied yield curve's `DF(t_k)`.
+ *   Opt-in; requires a yield curve for the bond's analytical currency in the
+ *   market-data snapshot.
+ *
+ * @category Services
+ */
+export type PricingMode = "flat_yield" | "curve";
+
+/**
  * Inputs accepted by the {@link BondFormulaOptions} constructor.
  *
  * This is the plain-object shape callers assemble; the constructor copies it
@@ -30,6 +43,12 @@ export interface BondFormulaOptionsInput {
   discountRate?: DiscountRateOptions;
   /** Cash-flow shaping options; omit to use formula defaults. */
   cashFlow?: CashFlowOptions;
+  /**
+   * How to discount cash flows to a price. Omit for `"flat_yield"`, the
+   * original flat-rate behaviour; set `"curve"` to discount off the yield
+   * curve in the market-data snapshot (see {@link PricingMode}).
+   */
+  pricingMode?: PricingMode;
 }
 
 /**
@@ -95,6 +114,12 @@ export class BondFormulaOptions {
    * formula defaults.
    */
   cashFlow?: CashFlowOptions;
+  /**
+   * How to discount cash flows to a price. Undefined means `"flat_yield"`,
+   * the original flat-rate behaviour; `"curve"` discounts off the snapshot's
+   * yield curve (see {@link PricingMode}).
+   */
+  pricingMode?: PricingMode;
 
   /**
    * @param options - The {@link BondFormulaOptionsInput} to snapshot. Each
@@ -105,5 +130,6 @@ export class BondFormulaOptions {
     this.analysisDate = options.analysisDate;
     this.discountRate = options.discountRate;
     this.cashFlow = options.cashFlow;
+    this.pricingMode = options.pricingMode;
   }
 }

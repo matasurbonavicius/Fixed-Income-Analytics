@@ -4,3 +4,4 @@ export * from "./cleanPrice";
 export * from "./dirtyPrice";
 export * from "./duration";
 export * from "./discountRate";
+export * from "./spreads";

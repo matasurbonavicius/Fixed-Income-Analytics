@@ -48,6 +48,12 @@ describe("BondCalculationService — fixed-rate bond (LITHUN 3.5 07/03/31)", () 
       3
     );
     expect(m.discountRate!.methodUsed).toBe("implied_from_price");
+
+    // Spreads against the fixture's EUR curve. Z- and I-spread are close here
+    // (a near-flat short-end curve over the bond's life) and both ~21bp.
+    expect(m.spreads!.zSpread.asPercent).toBeCloseTo(FIXED_GOLDEN.zSpreadPercent, 2);
+    expect(m.spreads!.iSpread.asPercent).toBeCloseTo(FIXED_GOLDEN.iSpreadPercent, 2);
+    expect(m.spreads!.gSpread).toBeUndefined();
   });
 });
 
@@ -76,6 +82,11 @@ describe("BondCalculationService — zero-coupon bond (LITHGB 0 03/03/28)", () =
       ZERO_GOLDEN.discountRatePercent,
       2
     );
+
+    // For a zero, Z-spread and I-spread coincide (single flow at maturity).
+    expect(m.spreads!.zSpread.asPercent).toBeCloseTo(ZERO_GOLDEN.zSpreadPercent, 2);
+    expect(m.spreads!.iSpread.asPercent).toBeCloseTo(ZERO_GOLDEN.iSpreadPercent, 2);
+    expect(m.spreads!.zSpread.asPercent).toBeCloseTo(m.spreads!.iSpread.asPercent, 6);
   });
 
   it("has Macaulay duration close to time-to-maturity for a zero", async () => {

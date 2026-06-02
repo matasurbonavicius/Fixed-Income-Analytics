@@ -6,11 +6,13 @@ import {
   generateCashFlowsZero,
   calculateDirtyPriceFixedFromYield,
   calculateDirtyPriceZeroFromYield,
+  calculateDirtyPriceFixedFromCurve,
+  calculateDirtyPriceZeroFromCurve,
   calculateCleanPriceFixedFromDirty,
   calculateCleanPriceZeroFromDirty,
   type CouponPayment,
 } from "@domain/formulas";
-import { Currency, Money, Percentage, UTCDate } from "@domain/valueObjects";
+import { Currency, Money, Percentage, UTCDate, DiscountCurve } from "@domain/valueObjects";
 import { unwrap } from "../../helpers/result";
 
 // ---- shared builders -------------------------------------------------------
@@ -303,5 +305,74 @@ describe("dirty/clean price — zero", () => {
     );
     const clean = unwrap(calculateCleanPriceZeroFromDirty({ dirtyPrice: dirty }));
     expect(clean.asDecimal).toBe(dirty.asDecimal);
+  });
+});
+
+// ---- curve discounting reproduces the flat-yield price ---------------------
+//
+// The regression guard for Phase 2: discounting off a *flat* curve at rate y
+// must reproduce, to ~1e-10, the flat-yield price at y. This proves the
+// curve-mode and yield-mode paths agree in the flat case (both use discrete
+// annual compounding) and that nothing silently diverges.
+
+/** A flat discount curve at a single rate. */
+function flatCurve(rate: number): DiscountCurve {
+  return unwrap(
+    DiscountCurve.fromZeroRates([
+      { tenor: 1, rate: pct(rate) },
+      { tenor: 30, rate: pct(rate) },
+    ])
+  );
+}
+
+describe("curve pricing reproduces flat-yield pricing", () => {
+  it("fixed: flat curve == flat yield (annual compounding)", () => {
+    const coupons = annualCoupons(["2027", "2028", "2029", "2030", "2031"]);
+    const common = {
+      faceValue: FACE,
+      fixedRate: pct(0.035),
+      frequency: 1,
+      currency: EUR,
+      settlementDate: d("2026-01-01"),
+      maturityDate: d("2031-01-01"),
+      futureCoupons: coupons,
+      dayCountConvention: DCC,
+    };
+    for (const y of [0.025, 0.035, 0.05]) {
+      const fromYield = unwrap(
+        calculateDirtyPriceFixedFromYield({
+          ...common,
+          discountRate: pct(y),
+          compoundingFrequency: 1,
+        })
+      );
+      const fromCurve = unwrap(
+        calculateDirtyPriceFixedFromCurve({ ...common, curve: flatCurve(y) })
+      );
+      expect(fromCurve.asDecimal).toBeCloseTo(fromYield.asDecimal, 10);
+    }
+  });
+
+  it("zero: flat curve == flat yield (annual compounding)", () => {
+    const common = {
+      faceValue: FACE,
+      currency: EUR,
+      settlementDate: d("2026-01-20"),
+      maturityDate: d("2028-03-03"),
+      dayCountConvention: DCC,
+    };
+    for (const y of [0.02, 0.026, 0.04]) {
+      const fromYield = unwrap(
+        calculateDirtyPriceZeroFromYield({
+          ...common,
+          discountRate: pct(y),
+          compoundingFrequency: 1,
+        })
+      );
+      const fromCurve = unwrap(
+        calculateDirtyPriceZeroFromCurve({ ...common, curve: flatCurve(y) })
+      );
+      expect(fromCurve.asDecimal).toBeCloseTo(fromYield.asDecimal, 10);
+    }
   });
 });

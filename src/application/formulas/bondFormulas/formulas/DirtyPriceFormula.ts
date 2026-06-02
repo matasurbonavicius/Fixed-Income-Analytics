@@ -1,9 +1,9 @@
 import { BondFormula } from "../BondFormula";
 import { Result, ResultHelper } from "@domain/shared";
 import { CalculationEngine } from "@application/core";
-import { Percentage } from "@domain/valueObjects";
+import { Percentage, DiscountCurve } from "@domain/valueObjects";
 import { Bond } from "@domain/entities";
-import { getMarketPrice } from "@domain/dataStructures";
+import { getMarketPrice, buildDiscountCurve } from "@domain/dataStructures";
 import * as entities from "@domain/entities";
 import * as formulas from "@domain/formulas";
 
@@ -50,16 +50,135 @@ export class DirtyPriceFormula extends BondFormula<Percentage> {
       }
     }
 
-    // No market prices found, calculate from discount rate
+    // No market prices found, calculate it. In "curve" pricing mode discount
+    // each flow off the snapshot's yield curve; otherwise use the flat yield.
+    const curveMode = engine.getOptions().pricingMode === "curve";
+
     if (bondType === "ZERO") {
-      return this.executeForZero(engine, bond);
+      return curveMode
+        ? this.executeForZeroFromCurve(engine, bond)
+        : this.executeForZero(engine, bond);
     }
 
     if (bondType === "FIXED") {
-      return this.executeForFixed(engine, bond);
+      return curveMode
+        ? this.executeForFixedFromCurve(engine, bond)
+        : this.executeForFixed(engine, bond);
     }
 
     return ResultHelper.failure(`Unsupported bond type: ${bondType}`);
+  }
+
+  /** Build the discount curve for the bond's analytical currency. */
+  private buildCurve(
+    engine: CalculationEngine,
+    props: entities.ZeroCouponBondProps | entities.FixedRateBondProps
+  ): Result<DiscountCurve> {
+    const marketDataResult = engine
+      .getMarketData()
+      .getByDate(engine.getOptions().analysisDate);
+    if (!marketDataResult.success) {
+      return ResultHelper.addContext(marketDataResult, "Dirty Price Formula");
+    }
+
+    return buildDiscountCurve(marketDataResult.value, props.analyticalCurrency);
+  }
+
+  private async executeForZeroFromCurve(
+    engine: CalculationEngine,
+    bond: entities.Bond
+  ): Promise<Result<Percentage>> {
+    const props = bond.props as entities.ZeroCouponBondProps;
+
+    const settlementDateResult = this.getSettlementDate(engine, bond.props);
+    if (!settlementDateResult.success) {
+      return ResultHelper.addContext(settlementDateResult, "Dirty Price Formula");
+    }
+
+    const curveResult = this.buildCurve(engine, props);
+    if (!curveResult.success) {
+      return curveResult;
+    }
+
+    const calcInput: formulas.DirtyPriceZeroFromCurveInput = {
+      settlementDate: settlementDateResult.value,
+      maturityDate: props.maturityDate,
+      curve: curveResult.value,
+      dayCountConvention: props.dayCountConvention,
+    };
+
+    const calcValidation = formulas.validateDirtyPriceZeroFromCurve(calcInput);
+    if (!calcValidation.success) {
+      return ResultHelper.addContext(calcValidation, "Dirty Price Formula");
+    }
+
+    const dirtyPriceResult = formulas.calculateDirtyPriceZeroFromCurve(calcInput);
+    if (!dirtyPriceResult.success) {
+      return ResultHelper.addContext(dirtyPriceResult, "Dirty Price Formula");
+    }
+
+    return dirtyPriceResult;
+  }
+
+  private async executeForFixedFromCurve(
+    engine: CalculationEngine,
+    bond: entities.Bond
+  ): Promise<Result<Percentage>> {
+    const props = bond.props as entities.FixedRateBondProps;
+
+    const settlementDateResult = this.getSettlementDate(engine, bond.props);
+    if (!settlementDateResult.success) {
+      return ResultHelper.addContext(settlementDateResult, "Dirty Price Formula");
+    }
+
+    const curveResult = this.buildCurve(engine, props);
+    if (!curveResult.success) {
+      return curveResult;
+    }
+
+    const scheduleResult = formulas.generateCouponSchedule({
+      issueDate: props.issueDate,
+      maturityDate: props.maturityDate,
+      firstCouponDate: props.firstCouponDate,
+      frequency: props.frequency,
+      businessDayConvention: props.businessDayConvention,
+      calendar: props.paymentCalendar,
+    });
+    if (!scheduleResult.success) {
+      return ResultHelper.addContext(scheduleResult, "Dirty Price Formula");
+    }
+    const schedule = scheduleResult.value;
+
+    if (schedule.length === 0) {
+      return ResultHelper.failure("Unable to generate coupon schedule");
+    }
+
+    const futureCoupons = formulas.getFutureCoupons(
+      schedule,
+      settlementDateResult.value
+    );
+
+    const calcInput: formulas.DirtyPriceFixedFromCurveInput = {
+      fixedRate: props.fixedRate,
+      frequency: props.frequency,
+      settlementDate: settlementDateResult.value,
+      maturityDate: props.maturityDate,
+      futureCoupons,
+      curve: curveResult.value,
+      dayCountConvention: props.dayCountConvention,
+    };
+
+    const calcValidation = formulas.validateDirtyPriceFixedFromCurve(calcInput);
+    if (!calcValidation.success) {
+      return ResultHelper.addContext(calcValidation, "Dirty Price Formula");
+    }
+
+    const dirtyPriceResult = formulas.calculateDirtyPriceFixedFromCurve(calcInput);
+    if (!dirtyPriceResult.success) {
+      return ResultHelper.addContext(dirtyPriceResult, "Dirty Price Formula");
+    }
+
+    return dirtyPriceResult;
   }
 
   private async executeForZero(

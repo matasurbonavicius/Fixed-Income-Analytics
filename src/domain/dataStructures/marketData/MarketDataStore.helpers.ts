@@ -1,5 +1,10 @@
 import { MarketData, YieldCurve, InternalRatingSpread } from "./";
-import { Currency, CreditRating } from "@domain/valueObjects";
+import {
+  Currency,
+  CreditRating,
+  DiscountCurve,
+  CurveInterpolation,
+} from "@domain/valueObjects";
 import { Result, ResultHelper } from "@domain/shared";
 
 const TENOR_TOLERANCE = 0.01; // years
@@ -29,6 +34,39 @@ export function getYieldCurve(
   }
 
   return ResultHelper.success(curve);
+}
+
+/**
+ * Build an immutable {@link DiscountCurve} from the market-data yield curve for
+ * a currency.
+ *
+ * Finds the {@link YieldCurve} for `currency` (via {@link getYieldCurve}) and
+ * turns its `{ tenor, rate }` pillars into a queryable curve that discounts off
+ * `DF(t)`. This is the curve object the opt-in curve-pricing and Z-spread paths
+ * consume; the raw `YieldCurve` is just data.
+ *
+ * @param marketData - The snapshot to read the yield curve from.
+ * @param currency - The currency whose curve to build.
+ * @param interpolation - Interpolation method; defaults to the curve's own
+ *   default ({@link CurveInterpolation.LOG_LINEAR_DF}).
+ * @returns A {@link Result} with the built {@link DiscountCurve}, or a failure
+ *   when no curve exists for the currency or its pillars are invalid.
+ *
+ * @category Market Data
+ */
+export function buildDiscountCurve(
+  marketData: MarketData,
+  currency: Currency,
+  interpolation?: CurveInterpolation
+): Result<DiscountCurve> {
+  const curveResult = getYieldCurve(marketData, currency);
+  if (!curveResult.success) {
+    return curveResult;
+  }
+
+  return DiscountCurve.fromZeroRates(curveResult.value.points, {
+    interpolation,
+  });
 }
 
 /**

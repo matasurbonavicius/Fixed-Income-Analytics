@@ -141,7 +141,57 @@ For a zero-coupon bond Macaulay duration equals its time to maturity and convexi
 
 ---
 
-## 8. Portfolio aggregation
+## 8. Term structure & spreads
+
+A flat yield prices one bond in isolation. To place a bond *against the market* the engine builds a term structure - a [`DiscountCurve`](https://github.com/matasurbonavicius/Bond-Analytics/blob/main/src/domain/valueObjects/DiscountCurve.ts) - and measures the bond's spread relative to it.
+
+### The discount curve
+
+`DiscountCurve` is an immutable value object built from observed zero (spot) rates (`DiscountCurve.fromZeroRates`). Its one query is the discount factor:
+
+```
+DF(t) = 1 / (1 + z(t))^t
+```
+
+with **discrete annual compounding**, consistent with the flat-yield pricing in §4 - so a flat curve reproduces the flat-yield price exactly (pinned in [`pricing.test.ts`](https://github.com/matasurbonavicius/Bond-Analytics/blob/main/tests/domain/formulas/pricing.test.ts)). Between its pillars the curve interpolates by one of two recorded methods:
+
+- **`LOG_LINEAR_DF`** (default) - linear in `ln(DF)`, i.e. **piecewise-constant forward rates**. The market-sane choice; it avoids the kinked, occasionally arbitrageable forwards that linear-on-yield can produce (Hagan & West, 2006).
+- **`LINEAR_ZERO`** - linear on the zero rates themselves; offered for continuity with the older flat interpolation.
+
+Beyond the first and last pillar the nearest zero rate is held **flat** - an explicit, documented extrapolation, never silent. `DF(0) = 1` exactly, and DF is monotonically decreasing in `t` for positive rates. These identities are pinned in [`discountCurve.test.ts`](https://github.com/matasurbonavicius/Bond-Analytics/blob/main/tests/domain/valueObjects/discountCurve.test.ts).
+
+### Pricing off the curve
+
+Pricing is opt-in via `pricingMode: "curve"` (the default `"flat_yield"` is unchanged). In curve mode each flow is discounted at its own curve factor rather than one flat rate:
+
+```
+DirtyPrice = Σ_k  CF_k · DF(t_k)
+```
+
+### Z-spread - the headline
+
+The **Z-spread** `z` is the constant add-on to *every* zero rate of the curve that reprices the bond to its observed dirty price:
+
+```
+DirtyPrice = Σ_k  CF_k · (1 + z_base(t_k) + z)^(−t_k)
+```
+
+where `z_base(t)` is the curve's own zero rate at `t`. Because the present value is smooth and monotonic in `z`, the engine solves it with the same hardened **Newton–Raphson** machinery used for the implied yield (§5), starting from the curve itself (`z = 0`). A bond priced exactly on the curve has `z ≈ 0`; a richer (higher) price gives a smaller/negative spread and a cheaper price a larger one - the monotonicity is pinned in [`spreads.test.ts`](https://github.com/matasurbonavicius/Bond-Analytics/blob/main/tests/domain/formulas/spreads.test.ts).
+
+### I-spread and G-spread
+
+Two simpler curve-relative measures accompany the Z-spread:
+
+- **I-spread** = bond yield − the (swap/benchmark) curve's zero rate at the bond's remaining life.
+- **G-spread** = bond yield − a *government* curve's rate at the same life. Reported only when a government curve is supplied.
+
+Where the Z-spread weighs the whole cash-flow profile against the whole curve, I/G-spreads compare a single yield to a single curve point at the bond's life - cheaper to read, coarser as a measure.
+
+**Out of scope** (deliberately, to stay lean): OAS / callable pricing (needs a stochastic rate model), multi-curve OIS-discounting, and spline / monotone-convex interpolation.
+
+---
+
+## 9. Portfolio aggregation
 
 Given positions `{ bond, quantity }` whose per-bond metrics have been computed:
 

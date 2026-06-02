@@ -22,6 +22,26 @@ import { unwrap } from "../helpers/result";
 
 const EUR = unwrap(Currency.create("EUR"));
 
+/**
+ * A representative EUR zero-rate curve as of the fixtures' as-of date. Pillars
+ * span the fixtures' lives (~2y zero, ~5.5y fixed) so the curve-based metrics
+ * (Z-spread, I-spread) have real nodes to interpolate between rather than
+ * relying on extrapolation.
+ */
+function eurYieldCurve() {
+  return {
+    currency: EUR,
+    points: [
+      { tenor: 1, rate: unwrap(Percentage.fromDecimal(0.024)) },
+      { tenor: 2, rate: unwrap(Percentage.fromDecimal(0.0255)) },
+      { tenor: 3, rate: unwrap(Percentage.fromDecimal(0.0265)) },
+      { tenor: 5, rate: unwrap(Percentage.fromDecimal(0.028)) },
+      { tenor: 7, rate: unwrap(Percentage.fromDecimal(0.029)) },
+      { tenor: 10, rate: unwrap(Percentage.fromDecimal(0.03)) },
+    ],
+  };
+}
+
 export interface BondFixture {
   bond: Bond;
   marketDataStore: MarketDataStore;
@@ -48,6 +68,7 @@ export function makeFixedRateBond(): BondFixture {
   const marketData: MarketData = {
     asOfDate,
     bondPrice: [{ bondId: id, priceType: "clean", bid: cleanPrice }],
+    yieldCurve: [eurYieldCurve()],
   };
   const marketDataStore = MarketDataStore.create([marketData]);
 
@@ -90,6 +111,7 @@ export function makeZeroCouponBond(): BondFixture {
   const marketData: MarketData = {
     asOfDate,
     bondPrice: [{ bondId: id, priceType: "clean", bid: cleanPrice }],
+    yieldCurve: [eurYieldCurve()],
   };
   const marketDataStore = MarketDataStore.create([marketData]);
 
@@ -126,6 +148,11 @@ export const FIXED_GOLDEN = {
   accruedDays: 201,
   modifiedDuration: 4.825,
   discountRatePercent: 3.034080,
+  // Spreads are against the fixture's own EUR curve (eurYieldCurve), not a
+  // Bloomberg figure: the 3.034% implied yield sits ~22bp over the ~2.8% curve
+  // at the bond's ~5.5y life. Pinned for regression, not as a market golden.
+  zSpreadPercent: 0.2176,
+  iSpreadPercent: 0.2054,
 } as const;
 
 /** Bloomberg-computed reference metrics for the zero-coupon fixture. */
@@ -134,4 +161,8 @@ export const ZERO_GOLDEN = {
   accruedInterestAmount: 0,
   modifiedDuration: 2.061,
   discountRatePercent: 2.5998,
+  // Against the fixture's EUR curve at the ~2.12y life. For a zero, Z-spread
+  // and I-spread coincide (single flow at maturity).
+  zSpreadPercent: 0.0304,
+  iSpreadPercent: 0.0304,
 } as const;
