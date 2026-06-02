@@ -32,6 +32,8 @@ Most open-source bond math is either a thin YTM helper or a heavyweight wrapper 
 
 It is the calculation core, published as a standalone library.
 
+IMPORTANT: Library is pre-npm publish. The documentation of npm scripts like npm i is illustrative.
+
 ## Features
 
 **Instruments**
