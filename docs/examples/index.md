@@ -1,6 +1,6 @@
 # Examples
 
-The repository ships ten runnable, end-to-end scenarios in [`examples/`](https://github.com/matasurbonavicius/Bond-Analytics/tree/main/examples). Each prices a real bond and prints the engine's output next to Bloomberg reference values.
+The repository ships ten runnable, end-to-end scenarios in [`examples/`](https://github.com/matasurbonavicius/Fixed-Income-Analytics/tree/main/examples). Each prices a real bond and prints the engine's output next to Bloomberg reference values.
 
 Run any of them from the repo root:
 
@@ -8,7 +8,7 @@ Run any of them from the repo root:
 npx tsx examples/bond.fixed.fromprice.demo.ts
 ```
 
-All examples price the **same two bonds** - a fixed-rate `LITHUN 3.5 07/03/31` and a zero-coupon `LITHGB 0 03/03/28` - but each demonstrates a different entry in the discount-rate waterfall. Those two bonds are also the fixtures pinned in the [golden-value tests](https://github.com/matasurbonavicius/Bond-Analytics/blob/main/tests/application/bondCalculation.golden.test.ts).
+All examples price the **same two bonds** — a fixed-rate `LITHUN 3.5 07/03/31` and a zero-coupon `LITHGB 0 03/03/28` — but each demonstrates a different entry in the discount-rate waterfall. Those two bonds are also the fixtures pinned in the [golden-value tests](https://github.com/matasurbonavicius/Fixed-Income-Analytics/blob/main/tests/application/bondCalculation.golden.test.ts).
 
 | File | Instrument | Discount-rate method | Demonstrates |
 |---|---|---|---|

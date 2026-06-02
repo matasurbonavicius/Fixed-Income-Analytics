@@ -8,10 +8,10 @@ const { version } = JSON.parse(
   readFileSync(fileURLToPath(new URL("../../package.json", import.meta.url)), "utf-8")
 );
 
-const SITE_TITLE = "Bond Analytics";
+const SITE_TITLE = "Fixed Income Analytics";
 const SITE_DESC =
-  "A dependency-free TypeScript engine for fixed-income analytics - bond pricing, yield, accrued interest, duration, and portfolio metrics.";
-const SITE_URL = "https://matasurbonavicius.github.io/Bond-Analytics/";
+  "A dependency-free TypeScript engine for fixed-income analytics — bond pricing, yield, accrued interest, duration, and portfolio metrics.";
+const SITE_URL = "https://matasurbonavicius.github.io/Fixed-Income-Analytics/";
 // Social-card image. Platforms (Slack/X/LinkedIn) render PNG, not SVG — the
 // source card is docs/public/og-image.svg; generate the .png from it once
 // (see docs/public/README.md) and it ships from /public unchanged.
@@ -105,16 +105,16 @@ const guideSidebar = [
 
 export default defineConfig({
   title: SITE_TITLE,
-  titleTemplate: ":title · Bond Analytics",
+  titleTemplate: ":title · Fixed Income Analytics",
   description: SITE_DESC,
   // GitHub Pages serves the site under /<repo>/.
-  base: "/Bond-Analytics/",
+  base: "/Fixed-Income-Analytics/",
   lastUpdated: true,
   cleanUrls: true,
   ignoreDeadLinks: false,
 
   head: [
-    ["link", { rel: "icon", type: "image/svg+xml", href: "/Bond-Analytics/logo.svg" }],
+    ["link", { rel: "icon", type: "image/svg+xml", href: "/Fixed-Income-Analytics/logo.svg" }],
     ["meta", { name: "theme-color", content: "#3c8772" }],
     // Open Graph (Slack / LinkedIn / Facebook link previews)
     ["meta", { property: "og:type", content: "website" }],
@@ -157,8 +157,8 @@ export default defineConfig({
       {
         text: `v${version}`,
         items: [
-          { text: "Changelog", link: "https://github.com/matasurbonavicius/Bond-Analytics/blob/main/CHANGELOG.md" },
-          { text: "npm", link: "https://www.npmjs.com/package/bond-analytics" },
+          { text: "Changelog", link: "https://github.com/matasurbonavicius/Fixed-Income-Analytics/blob/main/CHANGELOG.md" },
+          { text: "npm", link: "https://www.npmjs.com/package/fixed-income-analytics" },
         ],
       },
     ],
@@ -178,7 +178,7 @@ export default defineConfig({
     },
 
     socialLinks: [
-      { icon: "github", link: "https://github.com/matasurbonavicius/Bond-Analytics" },
+      { icon: "github", link: "https://github.com/matasurbonavicius/Fixed-Income-Analytics" },
     ],
 
     search: {
@@ -187,7 +187,7 @@ export default defineConfig({
 
     editLink: {
       pattern:
-        "https://github.com/matasurbonavicius/Bond-Analytics/edit/main/docs/:path",
+        "https://github.com/matasurbonavicius/Fixed-Income-Analytics/edit/main/docs/:path",
       text: "Edit this page on GitHub",
     },
 

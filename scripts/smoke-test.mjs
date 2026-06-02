@@ -4,7 +4,7 @@
 //   1. build the library
 //   2. `npm pack` -> the exact tarball that would be published
 //   3. install that tarball into smoke-test/ (no workspace/symlink shortcuts)
-//   4. run smoke-test/consume.mjs, which imports from "bond-analytics"
+//   4. run smoke-test/consume.mjs, which imports from "fixed-income-analytics"
 //
 // This catches mistakes the unit tests can't: a wrong `exports` map, a file
 // missing from the `files` allow-list, or a broken type entry point.

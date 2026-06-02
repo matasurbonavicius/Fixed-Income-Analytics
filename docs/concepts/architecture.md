@@ -86,7 +86,7 @@ Each returns a `Result` carrying the updated entity and a calculation summary; t
 
 ### Formula registry (`application/formulas`)
 
-Wraps each pure domain formula in a small adapter that declares its dependencies and registers it with the engine (`ALL_BOND_FORMULAS`, `ALL_PORTFOLIO_FORMULAS`). Adding a new metric is: write the pure math in `domain/formulas`, wrap it here, declare its dependencies - the engine schedules it automatically.
+Wraps each pure domain formula in a small adapter that declares its dependencies and registers it with the engine (`ALL_BOND_FORMULAS`, `ALL_PORTFOLIO_FORMULAS`). Adding a new metric is: write the pure math in `domain/formulas`, wrap it here, declare its dependencies — the engine schedules it automatically.
 
 ## Conventions that keep it clean
 

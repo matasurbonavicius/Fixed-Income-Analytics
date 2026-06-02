@@ -2,7 +2,7 @@
 
 ## Who decides
 
-Bond Analytics is a **benevolent-dictator (BDFL)** project. **Matas Urbonavičius** is the
+Fixed Income Analytics is a **benevolent-dictator (BDFL)** project. **Matas Urbonavičius** is the
 project lead and holds final say on direction, design, what gets merged, and what gets released.
 
 Contributors propose; the lead decides. This is not about gatekeeping — it's about keeping the
@@ -22,7 +22,7 @@ its community grow. Loosening control is easy; tightening it later is not — so
 
 ## Identity
 
-The **name "Bond Analytics" and any associated logo are marks of the project lead**, and are *not*
+The **name "Fixed Income Analytics" and any associated logo are marks of the project lead**, and are *not*
 covered by the source-code license. See [`TRADEMARK.md`](./TRADEMARK.md). The code is open under
 Apache-2.0; the name is not a free-for-all.
 

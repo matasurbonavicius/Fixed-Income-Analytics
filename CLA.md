@@ -1,6 +1,6 @@
 # Contributor License Agreement (CLA)
 
-Thank you for contributing to Bond Analytics. To keep the project's licensing and future options
+Thank you for contributing to Fixed Income Analytics. To keep the project's licensing and future options
 clear and intact, we ask every contributor to agree to this Contributor License Agreement before
 their contribution is merged.
 
@@ -13,7 +13,7 @@ You accept this agreement by the method described in [`CONTRIBUTING.md`](./CONTR
 example, by the CLA-assistant check on your pull request, or by a signed-off commit as configured).
 
 In this Agreement, **"You"** means the individual or legal entity making a Contribution, and
-**"the Project Lead"** means Matas Urbonavičius, maintainer of Bond Analytics.
+**"the Project Lead"** means Matas Urbonavičius, maintainer of Fixed Income Analytics.
 
 ---
 
@@ -21,7 +21,7 @@ In this Agreement, **"You"** means the individual or legal entity making a Contr
 
 **"Contribution"** means any original work of authorship, including any modifications or additions
 to an existing work, that You intentionally submit to the Project Lead for inclusion in, or
-documentation of, the Bond Analytics project (the "Work"). "Submit" means any form of electronic,
+documentation of, the Fixed Income Analytics project (the "Work"). "Submit" means any form of electronic,
 verbal, or written communication sent to the Project Lead or the project's repositories, including
 but not limited to pull requests, issues, and patches, but excluding communication that You
 conspicuously mark or otherwise designate in writing as "Not a Contribution."
@@ -91,4 +91,4 @@ would make these representations inaccurate in any respect.
 ---
 
 *This document is adapted from the Apache Software Foundation Individual Contributor License
-Agreement V2.0 and is provided for the Bond Analytics project. It is not legal advice.*
+Agreement V2.0 and is provided for the Fixed Income Analytics project. It is not legal advice.*

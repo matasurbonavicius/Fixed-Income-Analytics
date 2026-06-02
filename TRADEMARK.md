@@ -1,6 +1,6 @@
 # Trademark and Name Policy
 
-The **source code** of Bond Analytics is licensed under [Apache-2.0](./LICENSE). You are free to
+The **source code** of Fixed Income Analytics is licensed under [Apache-2.0](./LICENSE). You are free to
 use, modify, distribute, and build on it — including commercially — under those terms.
 
 This policy is about the **name and identity**, which the code license deliberately does **not**
@@ -9,7 +9,7 @@ name is treated.)
 
 ## What is reserved
 
-The name **"Bond Analytics"**, the `bond-analytics` package name, and any associated logos or
+The name **"Fixed Income Analytics"**, the `fixed-income-analytics` package name, and any associated logos or
 wordmarks are marks of **Matas Urbonavičius** ("the project lead"). They identify *this* project as
 maintained by the project lead.
 
@@ -17,13 +17,13 @@ maintained by the project lead.
 
 - Use the name to **refer to** this project truthfully — in articles, talks, documentation,
   dependency lists, "powered by" notices, and comparisons.
-- State that your software **uses** or is **built on** Bond Analytics.
+- State that your software **uses** or is **built on** Fixed Income Analytics.
 - Redistribute the unmodified project under its name, with its license and notices intact.
 
 ## What you may not do without permission
 
-- **Name a fork or derivative "Bond Analytics"** (or a confusingly similar name), or publish it
-  under the `bond-analytics` package name. Please rename forks so users aren't misled about origin
+- **Name a fork or derivative "Fixed Income Analytics"** (or a confusingly similar name), or publish it
+  under the `fixed-income-analytics` package name. Please rename forks so users aren't misled about origin
   or endorsement.
 - Use the name or logo in a way that **implies endorsement, sponsorship, or affiliation** by the
   project lead when there is none.

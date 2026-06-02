@@ -1,6 +1,6 @@
-# Contributing to Bond Analytics
+# Contributing to Fixed Income Analytics
 
-Thanks for your interest in improving Bond Analytics. Issues, discussions, and pull requests are
+Thanks for your interest in improving Fixed Income Analytics. Issues, discussions, and pull requests are
 all welcome.
 
 This project is maintained under a benevolent-dictator model — see [`GOVERNANCE.md`](./GOVERNANCE.md)

@@ -1,5 +1,5 @@
 // Consumer smoke-test: imports from the *published package* surface
-// ("bond-analytics"), exactly as a downstream user would — no internal
+// ("fixed-income-analytics"), exactly as a downstream user would — no internal
 // "@domain/..." path aliases. Run via `npm run smoke` from the repo root,
 // which packs the tarball, installs it here, and executes this file.
 //
@@ -17,7 +17,7 @@ import {
   UTCDate,
   Bond,
   BondCalculationService,
-} from "bond-analytics";
+} from "fixed-income-analytics";
 
 function unwrap(result, label) {
   if (!result.success) {
@@ -83,7 +83,7 @@ const { updatedBond } = unwrap(
 const metrics = updatedBond.props.metrics;
 const dirty = metrics?.dirtyPrice?.asPercent;
 
-console.log("Imported from package: bond-analytics");
+console.log("Imported from package: fixed-income-analytics");
 console.log(`Dirty price : ${dirty?.toFixed(4)}%  (Bloomberg 104.2208%)`);
 console.log(`Clean price : ${metrics?.cleanPrice?.asPercent.toFixed(4)}%  (Bloomberg 102.2935%)`);
 

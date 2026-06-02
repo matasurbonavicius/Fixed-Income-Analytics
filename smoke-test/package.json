@@ -1,5 +1,5 @@
 {
-  "name": "bond-analytics-smoke-test",
+  "name": "fixed-income-analytics-smoke-test",
   "private": true,
   "version": "0.0.0",
   "description": "Isolated consumer that installs the packed tarball and verifies the published surface works.",

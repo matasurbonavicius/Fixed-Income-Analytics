@@ -1,6 +1,6 @@
 # Static assets (`docs/public/`)
 
-Files here are served from the site root, e.g. `logo.svg` → `/Bond-Analytics/logo.svg`.
+Files here are served from the site root, e.g. `logo.svg` → `/Fixed-Income-Analytics/logo.svg`.
 
 - **`logo.svg`** — favicon + nav logo. Used directly.
 - **`og-image.svg`** — source for the social-share card.

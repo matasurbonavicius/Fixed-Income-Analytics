@@ -1,21 +1,21 @@
-# Bond Analytics
+# Fixed Income Analytics
 
 A **dependency-free TypeScript engine for fixed-income analytics** - bond pricing, yield, accrued interest, duration, and portfolio-level metrics, computed across the day-count conventions and financial calendars used in real markets.
 
-[![CI](https://github.com/matasurbonavicius/Bond-Analytics/actions/workflows/ci.yml/badge.svg)](https://github.com/matasurbonavicius/Bond-Analytics/actions/workflows/ci.yml)
-[![coverage](https://img.shields.io/endpoint?url=https%3A%2F%2Fmatasurbonavicius.github.io%2FBond-Analytics%2Fcoverage-badge.json)](https://matasurbonavicius.github.io/Bond-Analytics/)
+[![CI](https://github.com/matasurbonavicius/Fixed-Income-Analytics/actions/workflows/ci.yml/badge.svg)](https://github.com/matasurbonavicius/Fixed-Income-Analytics/actions/workflows/ci.yml)
+[![coverage](https://img.shields.io/endpoint?url=https%3A%2F%2Fmatasurbonavicius.github.io%2FFixed-Income-Analytics%2Fcoverage-badge.json)](https://matasurbonavicius.github.io/Fixed-Income-Analytics/)
 [![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](./LICENSE)
 ![Runtime dependencies: 0](https://img.shields.io/badge/runtime%20deps-0-brightgreen)
 ![Types: included](https://img.shields.io/badge/types-included-blue)
 
-[![npm version](https://img.shields.io/npm/v/bond-analytics.svg)](https://www.npmjs.com/package/bond-analytics)
-[![npm downloads](https://img.shields.io/npm/dm/bond-analytics.svg)](https://www.npmjs.com/package/bond-analytics)
-[![minzipped size](https://img.shields.io/bundlephobia/minzip/bond-analytics)](https://bundlephobia.com/package/bond-analytics)
+[![npm version](https://img.shields.io/npm/v/fixed-income-analytics.svg)](https://www.npmjs.com/package/fixed-income-analytics)
+[![npm downloads](https://img.shields.io/npm/dm/fixed-income-analytics.svg)](https://www.npmjs.com/package/fixed-income-analytics)
+[![minzipped size](https://img.shields.io/bundlephobia/minzip/fixed-income-analytics)](https://bundlephobia.com/package/fixed-income-analytics)
 
-📖 **[Documentation site](https://matasurbonavicius.github.io/Bond-Analytics/)** · [Guide](https://matasurbonavicius.github.io/Bond-Analytics/guide/introduction) · [API Reference](https://matasurbonavicius.github.io/Bond-Analytics/api/)
+📖 **[Documentation site](https://matasurbonavicius.github.io/Fixed-Income-Analytics/)** · [Guide](https://matasurbonavicius.github.io/Fixed-Income-Analytics/guide/introduction) · [API Reference](https://matasurbonavicius.github.io/Fixed-Income-Analytics/api/)
 
 ```ts
-import { BondCalculationService, Bond, Money, Percentage, Currency, UTCDate } from "bond-analytics";
+import { BondCalculationService, Bond, Money, Percentage, Currency, UTCDate } from "fixed-income-analytics";
 
 const { updatedBond } = unwrap(
   await BondCalculationService.calculate(bond, marketDataStore, options)
@@ -32,15 +32,14 @@ Those numbers are not illustrative - they are pinned in the test suite against *
 
 ## Why this exists
 
-Most open-source bond math is either a thin YTM helper or a heavyweight wrapper around a C++ library. This engine sits in between: a **self-contained, strongly-typed, domain-driven** implementation of the calculations a fixed-income desk actually needs - with no native bindings, no framework, and **zero runtime dependencies**.
+Most open-source bond math is either a thin YTM helper or a heavyweight wrapper around a C++ library (QuantLib). This engine sits in between: a **self-contained, strongly-typed, domain-driven** implementation of the calculations a fixed-income desk actually needs — with no native bindings, no framework, and **zero runtime dependencies** resulting not only in a highly accurate and easy to use package, but also incredibly fast, modeling a bond in less than 1ms on a normal laptop.
 
-It is the calculation core extracted from a larger bond-analytics platform, published as a standalone library.
+It is the calculation core, published as a standalone library.
 
 ## Features
 
 **Instruments**
-- Fixed-rate bullet bonds and zero-coupon bonds
-- Sovereign, corporate, municipal, agency, supranational, covered, MBS/ABS, convertible categories
+- Fixed-rate bonds and zero-coupon bonds
 
 **Per-bond metrics**
 - **Accrued interest** (with exact accrued-day counting)
@@ -48,7 +47,8 @@ It is the calculation core extracted from a larger bond-analytics platform, publ
 - **Cash-flow schedule** (coupons + principal, optional purchase outflow)
 - **Discount rate / yield** via a configurable waterfall:
   `implied_from_price → official_rating → internal_rating → manual_spread → manual_rate`
-- **Duration** - Macaulay, modified, and dollar duration
+- **Duration** — Macaulay, modified, and dollar duration
+- **Z-Spread, I-Spread, G-Spread**
 
 **Portfolio metrics**
 - Total market value, portfolio Macaulay/modified/dollar duration
@@ -58,12 +58,12 @@ It is the calculation core extracted from a larger bond-analytics platform, publ
 **Market conventions**
 - **Day count:** `ACT/ACT`, `ACT/365`, `ACT/360`, `ACT/364`, `ACT/366`, `ACT/ACT (AFB)`, `NL/365`, `30/360 (US/NASD/EU)`, `30/366`, `1/1`
 - **Business-day adjustment:** `FOLLOWING`, `MODIFIED_FOLLOWING`, `PRECEDING`, `MODIFIED_PRECEDING`, `UNADJUSTED`
-- **Holiday calendars:** NYSE, US Government Securities, SOFR, TARGET (EUR), LSE, EUREX, TSE, weekend-only - generated from [QuantLib](https://www.quantlib.org/) (see [`scripts/generate-calendars.py`](./scripts/generate-calendars.py))
+- **Holiday calendars:** NYSE, US Government Securities, SOFR, TARGET (EUR), LSE, EUREX, TSE, weekend-only. Supports more — generated from [QuantLib](https://www.quantlib.org/) (see [`scripts/generate-calendars.py`](./scripts/generate-calendars.py))
 
 ## Install
 
 ```bash
-npm install bond-analytics
+npm install fixed-income-analytics
 ```
 
 Ships ESM + CommonJS builds with bundled type declarations. Requires Node 18+ (or any modern bundler).
@@ -75,7 +75,7 @@ import {
   Bond, BondCalculationService,
   MarketDataStore, BondFormulaOptions,
   Currency, Money, Percentage, BondId, CreditRating, UTCDate,
-} from "bond-analytics";
+} from "fixed-income-analytics";
 
 // every factory returns a Result<T> - no thrown exceptions
 const must = <T>(r: { success: true; value: T } | { success: false; error: string }): T => {
@@ -132,7 +132,7 @@ console.log(m.accruedInterest!.accruedDays); // 201
 console.log(m.duration!.modifiedDuration);   // 4.825
 ```
 
-Ten runnable end-to-end scenarios (fixed & zero, each across all five discount-rate methods) live in [`examples/`](./examples). Run one with:
+Runnable end-to-end scenarios (fixed & zero, each across all five discount-rate methods plus spread demo) live in [`examples/`](./examples). Run one with:
 
 ```bash
 npx tsx examples/bond.fixed.fromprice.demo.ts
@@ -147,7 +147,7 @@ src/
 │   ├── entities/       Bond · Portfolio
 │   ├── dataStructures/ MarketData · MarketDataStore (yield curves, FX, spreads, prices)
 │   ├── formulas/       the math: accrued interest, prices, yield solver, duration,
-│   │                   day-count conventions, business-day & schedule utilities
+│   │                   day-count conventions, business-day & schedule utilities, spreads
 │   ├── specifications/ calculation options (settlement, method waterfalls)
 │   └── shared/         Result<T> railway-oriented error handling
 ├── application/    orchestration over the domain
@@ -204,5 +204,5 @@ require agreeing to the [Contributor License Agreement](./CLA.md).
 
 [Apache-2.0](./LICENSE) © Matas Urbonavičius
 
-The source code is Apache-2.0 — use it freely, including commercially. The **name "Bond Analytics"
+The source code is Apache-2.0 — use it freely, including commercially. The **name "Fixed Income Analytics"
 and any logo are not covered by that license**; see [`TRADEMARK.md`](./TRADEMARK.md).

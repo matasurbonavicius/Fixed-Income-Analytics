@@ -2,7 +2,7 @@
 layout: home
 
 hero:
-  name: Bond Analytics
+  name: Fixed Income Analytics
   text: Fixed-income math, in pure TypeScript
   tagline: Bond pricing, yield, accrued interest, duration, and portfolio metrics - across real day-count conventions and financial calendars. Zero runtime dependencies.
   actions:
@@ -14,7 +14,7 @@ hero:
       link: /api/
     - theme: alt
       text: View on GitHub
-      link: https://github.com/matasurbonavicius/Bond-Analytics
+      link: https://github.com/matasurbonavicius/Fixed-Income-Analytics
 
 features:
   - icon: 📐
@@ -34,11 +34,11 @@ features:
 ## Price a bond in a few lines
 
 ```bash
-npm install bond-analytics
+npm install fixed-income-analytics
 ```
 
 ```ts
-import { BondCalculationService } from "bond-analytics";
+import { BondCalculationService } from "fixed-income-analytics";
 
 // build a Bond, a MarketDataStore, and options (see the Quickstart), then:
 const { updatedBond } = unwrap(
