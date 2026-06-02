@@ -161,12 +161,16 @@ const lithuaniaBond = Bond.create({
   frequency: 1, // Annual payments
 });
 
+console.time('myOperation');
+
 // === RUN CALCULATION SERVICE ===
 const calculationResult = await BondCalculationService.calculate(
   lithuaniaBond,
   marketDataStore,
   calculationOptions
 );
+
+console.timeEnd('myOperation')
 if (!calculationResult.success) {
   throw new Error(calculationResult.error);
 }

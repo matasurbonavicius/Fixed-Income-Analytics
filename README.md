@@ -8,10 +8,6 @@ A **dependency-free TypeScript engine for fixed-income analytics** - bond pricin
 ![Runtime dependencies: 0](https://img.shields.io/badge/runtime%20deps-0-brightgreen)
 ![Types: included](https://img.shields.io/badge/types-included-blue)
 
-[![npm version](https://img.shields.io/npm/v/fixed-income-analytics.svg)](https://www.npmjs.com/package/fixed-income-analytics)
-[![npm downloads](https://img.shields.io/npm/dm/fixed-income-analytics.svg)](https://www.npmjs.com/package/fixed-income-analytics)
-[![minzipped size](https://img.shields.io/bundlephobia/minzip/fixed-income-analytics)](https://bundlephobia.com/package/fixed-income-analytics)
-
 📖 **[Documentation site](https://matasurbonavicius.github.io/Fixed-Income-Analytics/)** · [Guide](https://matasurbonavicius.github.io/Fixed-Income-Analytics/guide/introduction) · [API Reference](https://matasurbonavicius.github.io/Fixed-Income-Analytics/api/)
 
 ```ts
@@ -48,7 +44,7 @@ It is the calculation core, published as a standalone library.
 - **Discount rate / yield** via a configurable waterfall:
   `implied_from_price → official_rating → internal_rating → manual_spread → manual_rate`
 - **Duration** — Macaulay, modified, and dollar duration
-- **Z-Spread, I-Spread, G-Spread**
+- **Z-Spread, I-Spread, G-Spread** - These are still experimental, not cross checked with Bloomberg
 
 **Portfolio metrics**
 - Total market value, portfolio Macaulay/modified/dollar duration

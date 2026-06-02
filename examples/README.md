@@ -1,6 +1,6 @@
 # Examples
 
-Runnable, self-contained scripts that exercise the Fixed Income Analytics pricing engine end to end. Each script builds a `Bond` entity and a `MarketDataStore`, runs `BondCalculationService.calculate`, and prints the resulting metrics (dirty/clean price, accrued interest, duration, discount rate) next to **Bloomberg reference values** for easy comparison.
+Runnable, self-contained scripts that exercise the Fixed Income Analytics pricing engine end to end. Most scripts build a `Bond` entity and a `MarketDataStore`, run `BondCalculationService.calculate`, and print the resulting metrics (dirty/clean price, accrued interest, duration, discount rate) next to **Bloomberg reference values** for easy comparison. The portfolio script instead aggregates many bonds through `PortfolioCalculationService.calculate`.
 
 ## Running an example
 
@@ -32,6 +32,16 @@ All ten scripts price the **same two bonds** — a fixed-rate `LITHUN 3.5 07/03/
 | `bond.zero.manualSpread.demo.ts` | Zero | `manual_spread` | Adds a manual spread (bps) on top of a yield curve. |
 | `bond.zero.officialRating.demo.ts` | Zero | `official_rating` | Derives the spread from the bond's official credit rating. |
 | `bond.zero.internalRating.demo.ts` | Zero | `internal_rating` | Derives the spread from an internal rating-to-spread mapping. |
+
+## Portfolio
+
+`portfolio.demo.ts` builds a **1,000-bond portfolio** (an even mix of the two fixtures, each cloned under a unique ID and a varied holding size), prices the whole book in a single `PortfolioCalculationService.calculate` call, and prints the aggregate metrics — total market value, market-value-weighted Macaulay/modified/dollar duration, weighted average discount rate, and the aggregated cash-flow schedule.
+
+It also **measures speed**: wall-clock for the full run, time per bond, and throughput in bonds/sec. On a typical laptop the 1,000-bond run completes in well under a second.
+
+```bash
+npx tsx examples/portfolio.demo.ts
+```
 
 ## Reference values
 
