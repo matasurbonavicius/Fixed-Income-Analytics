@@ -22,5 +22,12 @@ export default tseslint.config(
     rules: {
       "@typescript-eslint/no-non-null-assertion": "off",
     },
+  },
+  {
+    // Node-run tooling and the consumer smoke test use Node globals.
+    files: ["scripts/**/*.mjs", "smoke-test/**/*.mjs"],
+    languageOptions: {
+      globals: { process: "readonly", console: "readonly" },
+    },
   }
 );

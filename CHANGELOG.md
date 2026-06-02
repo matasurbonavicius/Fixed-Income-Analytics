@@ -6,6 +6,11 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [1.0.0] - 2026-06-02
+
+First release published to npm. Promotes the initial feature set to a stable,
+semver-governed 1.x API. No functional changes from 0.1.0.
+
 ## [0.1.0] - 2026-05-28
 
 Initial public release.
@@ -25,5 +30,6 @@ Initial public release.
 - Zero runtime dependencies; ESM + CommonJS builds with bundled type declarations.
 - 307 tests including Bloomberg-pinned golden values and price/yield round-trips.
 
-[Unreleased]: https://github.com/matasurbonavicius/Bond-Analytics/compare/v0.1.0...HEAD
+[Unreleased]: https://github.com/matasurbonavicius/Bond-Analytics/compare/v1.0.0...HEAD
+[1.0.0]: https://github.com/matasurbonavicius/Bond-Analytics/compare/v0.1.0...v1.0.0
 [0.1.0]: https://github.com/matasurbonavicius/Bond-Analytics/releases/tag/v0.1.0

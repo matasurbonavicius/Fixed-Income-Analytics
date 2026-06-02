@@ -8,13 +8,9 @@ A **dependency-free TypeScript engine for fixed-income analytics** - bond pricin
 ![Runtime dependencies: 0](https://img.shields.io/badge/runtime%20deps-0-brightgreen)
 ![Types: included](https://img.shields.io/badge/types-included-blue)
 
-<!-- Once published to npm, uncomment these registry-backed badges:
 [![npm version](https://img.shields.io/npm/v/bond-analytics.svg)](https://www.npmjs.com/package/bond-analytics)
 [![npm downloads](https://img.shields.io/npm/dm/bond-analytics.svg)](https://www.npmjs.com/package/bond-analytics)
 [![minzipped size](https://img.shields.io/bundlephobia/minzip/bond-analytics)](https://bundlephobia.com/package/bond-analytics)
--->
-
-> **Status:** pre-release - not yet published to npm.
 
 📖 **[Documentation site](https://matasurbonavicius.github.io/Bond-Analytics/)** · [Guide](https://matasurbonavicius.github.io/Bond-Analytics/guide/introduction) · [API Reference](https://matasurbonavicius.github.io/Bond-Analytics/api/)
 

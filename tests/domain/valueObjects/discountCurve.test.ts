@@ -30,7 +30,7 @@ function sampleCurve(interpolation?: CurveInterpolation): DiscountCurve {
 }
 
 describe("DiscountCurve — construction", () => {
-  it("rejects an empty point set", () => {
+  it("rejects an empty point set", () => { 
     const r = DiscountCurve.fromZeroRates([]);
     expect(r.success).toBe(false);
   });
