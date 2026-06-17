@@ -180,20 +180,6 @@ npm run docs:dev      # VitePress + TypeDoc docs site (local)
 npm run docs:build    # build the static docs site
 ```
 
-## Publishing
-
-Releases publish to npm automatically when a GitHub Release is published, via
-[`.github/workflows/release.yml`](./.github/workflows/release.yml) (with npm
-provenance). It requires an `NPM_TOKEN` repository secret. To cut a release:
-
-```bash
-npm version <patch|minor|major>   # bumps package.json + tags
-git push --follow-tags
-# then publish a GitHub Release for that tag
-```
-
-To publish manually instead: `npm login && npm publish`.
-
 ## Contributing
 
 Contributions are welcome — please read [`CONTRIBUTING.md`](./CONTRIBUTING.md) first. The project is
