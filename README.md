@@ -61,10 +61,12 @@ IMPORTANT: Library is pre-npm publish. The documentation of npm scripts like npm
 ## Install
 
 ```bash
-npm install fixed-income-analytics
+npm install 
 ```
 
 Ships ESM + CommonJS builds with bundled type declarations. Requires Node 18+ (or any modern bundler).
+
+PS- not yet an official npm install
 
 ## Quickstart
 
