@@ -28,7 +28,7 @@ Those numbers are not illustrative - they are pinned in the test suite against *
 
 ## Why this exists
 
-Most open-source bond math is either a thin YTM helper or a heavyweight wrapper around a C++ library (QuantLib). This engine sits in between: a **self-contained, strongly-typed, domain-driven** implementation of the calculations a fixed-income desk actually needs, with no native bindings, no frameworks, and **zero runtime dependencies** resulting not only in a highly accurate and easy to use package, but also incredibly fast, modeling a bond in less than 1ms on a normal laptop.
+Most open-source bond math is either a thin YTM helper or a heavyweight wrapper around a C++ library (QuantLib). This engine sits in between: a **self-contained, strongly-typed, domain-driven** implementation of the calculations a fixed-income desk actually needs, with no native bindings, no frameworks, and **zero runtime dependencies** resulting not only in an accurate and easy to use package, but also incredibly fast, modeling a bond in less than 1ms on a normal laptop.
 
 It is the calculation core, published as a standalone library.
 
